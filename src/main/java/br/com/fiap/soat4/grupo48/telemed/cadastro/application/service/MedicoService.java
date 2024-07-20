@@ -23,7 +23,7 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico cadastrarMedico(String nome, String email, String crm) {
+    public Medico criarMedico(String nome, String email, String crm) {
         Medico medico = new Medico();
         medico.setNome(nome);
         medico.setEmail(email);
@@ -43,7 +43,7 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico excluirMedico(String id) throws MedicoNotFoundException {
+    public Medico deletarMedico(String id) throws MedicoNotFoundException {
         UUID uuid = UUID.fromString(id);
         Medico medico = medicoRepository.findById(uuid).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
         medicoRepository.deleteById(uuid);

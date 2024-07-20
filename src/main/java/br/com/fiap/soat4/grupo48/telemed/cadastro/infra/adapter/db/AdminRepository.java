@@ -4,6 +4,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IAdminRep
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -71,6 +72,17 @@ public class AdminRepository implements IAdminRepository {
     @Override
     public void deleteById(UUID id) {
         adminSpringRepository.deleteById(id);
+    }
+
+    /**
+     * Busca todas as entidades Admin cadastradas no banco de dados.
+     *
+     * @return Uma lista com todas as entidades Admin cadastradas.
+     */
+    @Override
+    public List<Admin> findAll() {
+        List<AdminEntity> adminEntities = adminSpringRepository.findAll();
+        return adminEntities.stream().map(this::convertToDomain).toList();
     }
 
     /**

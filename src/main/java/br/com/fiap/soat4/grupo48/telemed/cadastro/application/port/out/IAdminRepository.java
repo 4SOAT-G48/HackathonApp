@@ -2,6 +2,7 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out;
 
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,4 +41,11 @@ public interface IAdminRepository {
      * @param id O identificador único do admin a ser deletado.
      */
     void deleteById(UUID id);
+
+    /**
+     * Busca todos os admins cadastrados no banco de dados.
+     *
+     * @return Uma lista com todos os admins cadastrados.
+     */
+    List<Admin> findAll();
 }

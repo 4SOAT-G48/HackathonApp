@@ -16,7 +16,7 @@ public interface IEspecialidadeService {
      * @param descricao A descrição da especialidade a ser cadastrada.
      * @return O objeto Especialidade cadastrado.
      */
-    Especialidade cadastrarEspecialidade(Long codigo, String descricao);
+    Especialidade criarEspecialidade(Long codigo, String descricao);
 
     /**
      * Atualiza uma especialidade existente, identificada pelo ID, com novos valores de código e descrição.
@@ -34,5 +34,5 @@ public interface IEspecialidadeService {
      * @param id O identificador único da especialidade a ser excluída.
      * @return O objeto Especialidade excluído.
      */
-    Especialidade excluirEspecialidade(String id) throws EspecialidadeNotFoundException;
+    Especialidade deletarEspecialidade(String id) throws EspecialidadeNotFoundException;
 }

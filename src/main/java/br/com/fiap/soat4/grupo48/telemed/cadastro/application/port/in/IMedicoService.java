@@ -20,7 +20,7 @@ public interface IMedicoService {
      * @param crm   O CRM do médico a ser cadastrado.
      * @return O objeto Medico cadastrado.
      */
-    Medico cadastrarMedico(String nome, String email, String crm);
+    Medico criarMedico(String nome, String email, String crm);
 
     /**
      * Atualiza um médico existente, identificado pelo ID, com novos valores de nome, email e CRM.
@@ -39,7 +39,7 @@ public interface IMedicoService {
      * @param id O identificador único do médico a ser excluído.
      * @return O objeto Medico excluído.
      */
-    Medico excluirMedico(String id) throws MedicoNotFoundException;
+    Medico deletarMedico(String id) throws MedicoNotFoundException;
 
     /**
      * Busca um médico pelo seu identificador único.

@@ -16,7 +16,7 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade cadastrarEspecialidade(Long codigo, String descricao) {
+    public Especialidade criarEspecialidade(Long codigo, String descricao) {
         Especialidade especialidade = new Especialidade();
         especialidade.setId(UUID.randomUUID());
         especialidade.setCodigo(codigo);
@@ -35,7 +35,7 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade excluirEspecialidade(String id) throws EspecialidadeNotFoundException {
+    public Especialidade deletarEspecialidade(String id) throws EspecialidadeNotFoundException {
         UUID uuid = UUID.fromString(id);
         Especialidade especialidade = especialidadeRepository.findById(uuid).orElseThrow(() -> new EspecialidadeNotFoundException("Especialidade não encontrada com ID: " + id));
         especialidadeRepository.deleteById(uuid);
