@@ -6,6 +6,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IAdminRep
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class AdminService implements IAdminService {
 
@@ -26,7 +27,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin atualizarAdmin(String id, String nome, String email) throws AdminNotFoundException {
+    public Admin atualizarAdmin(UUID id, String nome, String email) throws AdminNotFoundException {
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             Admin admin = adminOptional.get();
@@ -38,7 +39,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin excluirAdmin(String id) throws AdminNotFoundException {
+    public Admin excluirAdmin(UUID id) throws AdminNotFoundException {
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             adminRepository.deleteById(id);
@@ -49,7 +50,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin buscarAdmin(String id) throws AdminNotFoundException {
+    public Admin buscarAdmin(UUID id) throws AdminNotFoundException {
         return adminRepository.findById(id).orElseThrow(() -> new AdminNotFoundException(ADMIN_NAO_ENCONTRADO));
     }
 

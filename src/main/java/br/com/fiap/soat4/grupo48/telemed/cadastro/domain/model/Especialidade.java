@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -15,4 +16,6 @@ public class Especialidade {
     private UUID id;
     private Long codigo;
     private String descricao;
+    private Date dataCriacao;
+    private Date dataAtualizacao;
 }

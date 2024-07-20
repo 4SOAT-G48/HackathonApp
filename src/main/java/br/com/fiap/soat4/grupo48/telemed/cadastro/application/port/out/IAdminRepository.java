@@ -3,6 +3,8 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 
 import java.util.Optional;
+import java.util.UUID;
+
 /**
  * Interface IAdminRepository define os métodos para interação com o banco de dados para a entidade Admin.
  * Permite operações de salvar, buscar por ID, buscar por email e deletar um Admin.
@@ -22,7 +24,7 @@ public interface IAdminRepository {
      * @param id O identificador único do admin.
      * @return Um Optional contendo o Admin encontrado, ou um Optional vazio se nenhum for encontrado.
      */
-    Optional<Admin> findById(String id);
+    Optional<Admin> findById(UUID id);
 
     /**
      * Busca um admin pelo seu email.
@@ -37,5 +39,5 @@ public interface IAdminRepository {
      *
      * @param id O identificador único do admin a ser deletado.
      */
-    void deleteById(String id);
+    void deleteById(UUID id);
 }
