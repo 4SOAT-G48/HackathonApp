@@ -39,9 +39,8 @@ public interface IMedicoService {
      * Exclui um médico do sistema, identificado pelo ID fornecido.
      *
      * @param id O identificador único do médico a ser excluído.
-     * @return O objeto Medico excluído.
      */
-    Medico deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException;
+    void deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException;
 
     /**
      * Busca um médico pelo seu identificador único.

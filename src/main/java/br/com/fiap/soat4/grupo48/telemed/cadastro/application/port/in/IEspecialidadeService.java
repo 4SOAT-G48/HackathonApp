@@ -36,9 +36,8 @@ public interface IEspecialidadeService {
      * Exclui uma especialidade do sistema, identificada pelo ID fornecido.
      *
      * @param id O identificador único da especialidade a ser excluída.
-     * @return O objeto Especialidade excluído.
      */
-    Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
+    void deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
 
     /**
      * Busca todas as especialidades cadastradas no sistema.

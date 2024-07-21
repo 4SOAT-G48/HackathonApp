@@ -48,13 +48,12 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException {
+    public void deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException {
         if (id == null) {
             throw new MedicoIllegalArgumentException("ID é obrigatório");
         }
         Medico medico = medicoRepository.findById(id).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
         medicoRepository.deleteById(id);
-        return medico;
     }
 
     @Override

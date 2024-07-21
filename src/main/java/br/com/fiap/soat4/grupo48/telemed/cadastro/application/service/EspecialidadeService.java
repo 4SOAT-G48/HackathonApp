@@ -44,13 +44,12 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
+    public void deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
         if (Objects.isNull(id)) {
             throw new EspecialidadeIllegalArgumentException("ID é obrigatório");
         }
         Especialidade especialidade = especialidadeRepository.findById(id).orElseThrow(() -> new EspecialidadeNotFoundException(ESPECIALIDADE_NAO_ENCONTRADA_COM_ID + id));
         especialidadeRepository.deleteById(id);
-        return especialidade;
     }
 
     @Override

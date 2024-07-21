@@ -44,13 +44,12 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException {
+    public void excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException {
         if (Objects.isNull(id)) {
             throw new PacienteIllegalArgumentException("ID é obrigatório");
         }
-        Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
+        pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
         pacienteRepository.deleteById(id);
-        return paciente;
     }
 
     @Override

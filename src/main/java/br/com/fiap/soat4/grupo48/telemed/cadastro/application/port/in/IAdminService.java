@@ -36,9 +36,8 @@ public interface IAdminService {
      * Exclui um administrador do sistema, identificado pelo ID fornecido.
      *
      * @param id O identificador único do administrador a ser excluído.
-     * @return O objeto Admin excluído.
      */
-    Admin deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException;
+    void deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException;
 
     /**
      * Recupera um administrador pelo seu identificador único.

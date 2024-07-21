@@ -37,9 +37,8 @@ public interface IPacienteService {
      * Exclui um paciente do sistema, identificado pelo ID fornecido.
      *
      * @param id O identificador único do paciente a ser excluído.
-     * @return O objeto Paciente excluído.
      */
-    Paciente excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException;
+    void excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException;
 
     /**
      * Busca um paciente pelo seu identificador único.

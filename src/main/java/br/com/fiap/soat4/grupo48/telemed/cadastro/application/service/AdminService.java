@@ -48,14 +48,13 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException {
+    public void deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException {
         if (Objects.isNull(id)) {
             throw new AdminIllegalArgumentException("ID é obrigatório");
         }
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             adminRepository.deleteById(id);
-            return adminOptional.get();
         } else {
             throw new AdminNotFoundException(ADMIN_NAO_ENCONTRADO);
         }
