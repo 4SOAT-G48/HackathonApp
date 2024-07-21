@@ -92,7 +92,7 @@ public class AdminController {
     @Operation(summary = "Recupera um admin pelo ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Admin encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
-        @ApiResponse(responseCode = "404", description = "Admin não encontrado", content = {@Content}),
+        @ApiResponse(responseCode = "404", description = "Admin não encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarAdmin(@PathVariable UUID id) {
@@ -100,15 +100,16 @@ public class AdminController {
         try {
             admin = adminService.buscarAdmin(id);
         } catch (ApplicationException e) { //todas as exceções da aplicação/negócio
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
         return ResponseEntity.ok(admin);
     }
 
     @Operation(summary = "Atualiza um admin")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Admin Atualizado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
-        @ApiResponse(responseCode = "400", description = "Admin inválido", content = {@Content}),
+        @ApiResponse(responseCode = "200", description = "Admin encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
+        @ApiResponse(responseCode = "404", description = "Admin não encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @GetMapping("/email/{email}")
     public ResponseEntity<?> buscarAdminPeloEmail(@PathVariable String email) {
@@ -116,7 +117,8 @@ public class AdminController {
         try {
             admin = adminService.buscarAdminPorEmail(email);
         } catch (ApplicationException e) { //todas as exceções da aplicação/negócio
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
         return ResponseEntity.ok(admin);
     }
