@@ -14,12 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Especialidade", description = "Endpoints destinado ao cadastro de especialidades")
 @RestController
-@RequestMapping("/especialidades")
+@RequestMapping("/v1/especialidades")
 public class EspecialidadeController {
     private final IEspecialidadeService especialidadeService;
 
@@ -30,11 +31,17 @@ public class EspecialidadeController {
     @Operation(summary = "Cria uma especialidade")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Especialidade criada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Especialidade.class))}),
-        @ApiResponse(responseCode = "400", description = "Especialidade inválida", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Especialidade inválida", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PostMapping
-    public ResponseEntity<Especialidade> criarEspecialidade(@RequestBody EspecialidadeDTO especialidadeDTO) {
-        Especialidade especialidadeCriada = especialidadeService.criarEspecialidade(especialidadeDTO.getCodigo(), especialidadeDTO.getDescricao());
+    public ResponseEntity<?> criarEspecialidade(@RequestBody EspecialidadeDTO especialidadeDTO) {
+        Especialidade especialidadeCriada = null;
+        try {
+            especialidadeCriada = especialidadeService.criarEspecialidade(especialidadeDTO.getCodigo(), especialidadeDTO.getDescricao());
+        } catch (ApplicationException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(especialidadeCriada);
     }
 
@@ -42,15 +49,16 @@ public class EspecialidadeController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Especialidade atualizada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Especialidade.class))}),
         @ApiResponse(responseCode = "400", description = "Especialidade inválida", content = {@Content}),
-        @ApiResponse(responseCode = "404", description = "Especialidade não encontrada", content = {@Content}),
+        @ApiResponse(responseCode = "404", description = "Especialidade não encontrada", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Especialidade> atualizarEspecialidade(@PathVariable UUID id, @RequestBody EspecialidadeDTO especialidadeDTO) {
+    public ResponseEntity<?> atualizarEspecialidade(@PathVariable UUID id, @RequestBody EspecialidadeDTO especialidadeDTO) {
         try {
             Especialidade especialidadeAtualizada = especialidadeService.atualizarEspecialidade(id, especialidadeDTO.getCodigo(), especialidadeDTO.getDescricao());
             return ResponseEntity.ok(especialidadeAtualizada);
         } catch (EspecialidadeNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

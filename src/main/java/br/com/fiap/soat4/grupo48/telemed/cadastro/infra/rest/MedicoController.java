@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.infra.rest;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IMedicoService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
@@ -14,12 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Médico", description = "Endpoints destinado ao cadastro de médicos")
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("/v1/medicos")
 public class MedicoController {
     private final IMedicoService medicoService;
 
@@ -30,40 +32,51 @@ public class MedicoController {
     @Operation(summary = "Cria um médico")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Médico Criado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Medico.class))}),
-        @ApiResponse(responseCode = "400", description = "Médico inválido", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Médico inválido", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PostMapping
-    public ResponseEntity<Medico> criarMedico(@RequestBody MedicoDTO medico) {
-        Medico medicoCriado = medicoService.criarMedico(medico.getNome(), medico.getEmail(), medico.getCrm());
+    public ResponseEntity<?> criarMedico(@RequestBody MedicoDTO medico) {
+        Medico medicoCriado = null;
+        try {
+            medicoCriado = medicoService.criarMedico(medico.getNome(), medico.getEmail(), medico.getCrm());
+        } catch (ApplicationException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(medicoCriado);
     }
 
     @Operation(summary = "Atualiza um médico")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Médico Atualizado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Medico.class))}),
-        @ApiResponse(responseCode = "400", description = "Médico inválido", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Médico inválido", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Medico> atualizarMedico(@PathVariable UUID id, @RequestBody MedicoDTO medicoDTO) {
+    public ResponseEntity<?> atualizarMedico(@PathVariable UUID id, @RequestBody MedicoDTO medicoDTO) {
         try {
             Medico medicoAtualizado = medicoService.atualizarMedico(id, medicoDTO.getNome(), medicoDTO.getEmail(), medicoDTO.getCrm());
             return ResponseEntity.ok(medicoAtualizado);
         } catch (ApplicationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
     @Operation(summary = "Deleta um médico")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Médico deletado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Medico.class))}),
+        @ApiResponse(responseCode = "400", description = "Requisição inválida", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
         @ApiResponse(responseCode = "404", description = "Médico não encontrado", content = {@Content}),
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarMedico(@PathVariable UUID id) {
+    public ResponseEntity<?> deletarMedico(@PathVariable UUID id) {
         try {
             medicoService.deletarMedico(id);
         } catch (MedicoNotFoundException e) {
             return ResponseEntity.notFound().build();
+        } catch (MedicoIllegalArgumentException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
         return ResponseEntity.ok().build();
     }

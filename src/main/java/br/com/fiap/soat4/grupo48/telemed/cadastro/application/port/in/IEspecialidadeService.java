@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Especialidade;
 
@@ -19,7 +20,7 @@ public interface IEspecialidadeService {
      * @param descricao A descrição da especialidade a ser cadastrada.
      * @return O objeto Especialidade cadastrado.
      */
-    Especialidade criarEspecialidade(Long codigo, String descricao);
+    Especialidade criarEspecialidade(Long codigo, String descricao) throws EspecialidadeIllegalArgumentException;
 
     /**
      * Atualiza uma especialidade existente, identificada pelo ID, com novos valores de código e descrição.
@@ -29,7 +30,7 @@ public interface IEspecialidadeService {
      * @param descricao A nova descrição para a especialidade.
      * @return O objeto Especialidade atualizado.
      */
-    Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException;
+    Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
 
     /**
      * Exclui uma especialidade do sistema, identificada pelo ID fornecido.
@@ -37,7 +38,7 @@ public interface IEspecialidadeService {
      * @param id O identificador único da especialidade a ser excluída.
      * @return O objeto Especialidade excluído.
      */
-    Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException;
+    Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
 
     /**
      * Busca todas as especialidades cadastradas no sistema.

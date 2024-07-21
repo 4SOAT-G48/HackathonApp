@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
@@ -19,7 +20,7 @@ public interface IPacienteService {
      * @param cpf   O CPF do paciente a ser cadastrado.
      * @return O objeto Paciente cadastrado.
      */
-    Paciente cadastrarPaciente(String nome, String email, String cpf);
+    Paciente cadastrarPaciente(String nome, String email, String cpf) throws PacienteIllegalArgumentException;
 
     /**
      * Atualiza um paciente existente, identificado pelo ID, com novos valores de nome, email e CPF.
@@ -30,7 +31,7 @@ public interface IPacienteService {
      * @param cpf   O novo CPF para o paciente.
      * @return O objeto Paciente atualizado.
      */
-    Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException;
+    Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException, PacienteIllegalArgumentException;
 
     /**
      * Exclui um paciente do sistema, identificado pelo ID fornecido.
@@ -38,7 +39,7 @@ public interface IPacienteService {
      * @param id O identificador único do paciente a ser excluído.
      * @return O objeto Paciente excluído.
      */
-    Paciente excluirPaciente(UUID id) throws PacienteNotFoundException;
+    Paciente excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException;
 
     /**
      * Busca um paciente pelo seu identificador único.

@@ -1,10 +1,12 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IPacienteService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IPacienteRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PacienteService implements IPacienteService {
@@ -17,7 +19,10 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente cadastrarPaciente(String nome, String email, String cpf) {
+    public Paciente cadastrarPaciente(String nome, String email, String cpf) throws PacienteIllegalArgumentException {
+        if (Objects.isNull(nome) || Objects.isNull(email) || Objects.isNull(cpf)) {
+            throw new PacienteIllegalArgumentException("Nome, email e CPF são obrigatórios");
+        }
         Paciente paciente = new Paciente();
         paciente.setNome(nome);
         paciente.setEmail(email);
@@ -26,7 +31,10 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException {
+    public Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException, PacienteIllegalArgumentException {
+        if (Objects.isNull(id) || Objects.isNull(nome) || Objects.isNull(email) || Objects.isNull(cpf)) {
+            throw new PacienteIllegalArgumentException("ID, nome, email e CPF são obrigatórios");
+        }
         return pacienteRepository.findById(id).map(paciente -> {
             paciente.setNome(nome);
             paciente.setEmail(email);
@@ -36,7 +44,10 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente excluirPaciente(UUID id) throws PacienteNotFoundException {
+    public Paciente excluirPaciente(UUID id) throws PacienteNotFoundException, PacienteIllegalArgumentException {
+        if (Objects.isNull(id)) {
+            throw new PacienteIllegalArgumentException("ID é obrigatório");
+        }
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
         pacienteRepository.deleteById(id);
         return paciente;

@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.AdminIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.AdminNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 
@@ -19,7 +20,7 @@ public interface IAdminService {
      * @param email O email do administrador a ser cadastrado.
      * @return O objeto Admin cadastrado.
      */
-    Admin criarAdmin(String nome, String email);
+    Admin criarAdmin(String nome, String email) throws AdminIllegalArgumentException;
 
     /**
      * Atualiza um administrador existente, identificado pelo ID fornecido, com um novo nome e email.
@@ -29,7 +30,7 @@ public interface IAdminService {
      * @param email O novo email para o administrador.
      * @return O objeto Admin atualizado.
      */
-    Admin atualizarAdmin(UUID id, String nome, String email) throws AdminNotFoundException;
+    Admin atualizarAdmin(UUID id, String nome, String email) throws AdminNotFoundException, AdminIllegalArgumentException;
 
     /**
      * Exclui um administrador do sistema, identificado pelo ID fornecido.
@@ -37,7 +38,7 @@ public interface IAdminService {
      * @param id O identificador único do administrador a ser excluído.
      * @return O objeto Admin excluído.
      */
-    Admin deletarAdmin(UUID id) throws AdminNotFoundException;
+    Admin deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException;
 
     /**
      * Recupera um administrador pelo seu identificador único.

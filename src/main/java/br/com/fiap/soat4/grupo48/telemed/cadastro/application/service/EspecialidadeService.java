@@ -1,11 +1,13 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IEspecialidadeService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IEspecialidadeRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Especialidade;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EspecialidadeService implements IEspecialidadeService {
@@ -18,7 +20,10 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade criarEspecialidade(Long codigo, String descricao) {
+    public Especialidade criarEspecialidade(Long codigo, String descricao) throws EspecialidadeIllegalArgumentException {
+        if (Objects.isNull(codigo) || Objects.isNull(descricao)) {
+            throw new EspecialidadeIllegalArgumentException("Código e descrição são obrigatórios");
+        }
         Especialidade especialidade = new Especialidade();
         especialidade.setId(UUID.randomUUID());
         especialidade.setCodigo(codigo);
@@ -27,8 +32,10 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException {
-
+    public Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
+        if (Objects.isNull(id) || Objects.isNull(codigo) || Objects.isNull(descricao)) {
+            throw new EspecialidadeIllegalArgumentException("ID, código e descrição são obrigatórios");
+        }
         return especialidadeRepository.findById(id).map(especialidade -> {
             especialidade.setCodigo(codigo);
             especialidade.setDescricao(descricao);
@@ -37,7 +44,10 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException {
+    public Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
+        if (Objects.isNull(id)) {
+            throw new EspecialidadeIllegalArgumentException("ID é obrigatório");
+        }
         Especialidade especialidade = especialidadeRepository.findById(id).orElseThrow(() -> new EspecialidadeNotFoundException(ESPECIALIDADE_NAO_ENCONTRADA_COM_ID + id));
         especialidadeRepository.deleteById(id);
         return especialidade;

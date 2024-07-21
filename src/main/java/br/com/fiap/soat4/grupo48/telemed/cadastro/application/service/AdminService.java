@@ -1,11 +1,13 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.AdminIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.AdminNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IAdminService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IAdminRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +22,10 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin criarAdmin(String nome, String email) {
+    public Admin criarAdmin(String nome, String email) throws AdminIllegalArgumentException {
+        if (Objects.isNull(nome) || Objects.isNull(email)) {
+            throw new AdminIllegalArgumentException("Nome e email são obrigatórios");
+        }
         Admin admin = new Admin();
         admin.setNome(nome);
         admin.setEmail(email);
@@ -28,7 +33,10 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin atualizarAdmin(UUID id, String nome, String email) throws AdminNotFoundException {
+    public Admin atualizarAdmin(UUID id, String nome, String email) throws AdminNotFoundException, AdminIllegalArgumentException {
+        if (Objects.isNull(id) || Objects.isNull(nome) || Objects.isNull(email)) {
+            throw new AdminIllegalArgumentException("ID, nome e email são obrigatórios");
+        }
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             Admin admin = adminOptional.get();
@@ -40,7 +48,10 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Admin deletarAdmin(UUID id) throws AdminNotFoundException {
+    public Admin deletarAdmin(UUID id) throws AdminNotFoundException, AdminIllegalArgumentException {
+        if (Objects.isNull(id)) {
+            throw new AdminIllegalArgumentException("ID é obrigatório");
+        }
         Optional<Admin> adminOptional = adminRepository.findById(id);
         if (adminOptional.isPresent()) {
             adminRepository.deleteById(id);

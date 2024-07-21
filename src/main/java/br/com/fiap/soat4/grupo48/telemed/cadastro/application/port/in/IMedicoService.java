@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 
@@ -21,7 +22,7 @@ public interface IMedicoService {
      * @param crm   O CRM do médico a ser cadastrado.
      * @return O objeto Medico cadastrado.
      */
-    Medico criarMedico(String nome, String email, String crm);
+    Medico criarMedico(String nome, String email, String crm) throws MedicoIllegalArgumentException;
 
     /**
      * Atualiza um médico existente, identificado pelo ID, com novos valores de nome, email e CRM.
@@ -32,7 +33,7 @@ public interface IMedicoService {
      * @param crm   O novo CRM para o médico.
      * @return O objeto Medico atualizado.
      */
-    Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException;
+    Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException, MedicoIllegalArgumentException;
 
     /**
      * Exclui um médico do sistema, identificado pelo ID fornecido.
@@ -40,7 +41,7 @@ public interface IMedicoService {
      * @param id O identificador único do médico a ser excluído.
      * @return O objeto Medico excluído.
      */
-    Medico deletarMedico(UUID id) throws MedicoNotFoundException;
+    Medico deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException;
 
     /**
      * Busca um médico pelo seu identificador único.

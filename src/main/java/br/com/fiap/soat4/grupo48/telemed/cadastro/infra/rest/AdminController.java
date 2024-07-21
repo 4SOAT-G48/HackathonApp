@@ -13,12 +13,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Admin", description = "Endpoints destinado ao cadastro de administradores")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/v1/admin")
 public class AdminController {
     private final IAdminService adminService;
 
@@ -29,26 +30,33 @@ public class AdminController {
     @Operation(summary = "Cria um admin")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Admin Criado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
-        @ApiResponse(responseCode = "400", description = "Admin inválido", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Admin inválido", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PostMapping
-    public ResponseEntity<Admin> criarAdmin(@RequestBody AdminDTO admin) {
-        Admin adminCriado = adminService.criarAdmin(admin.getNome(), admin.getEmail());
+    public ResponseEntity<?> criarAdmin(@RequestBody AdminDTO admin) {
+        Admin adminCriado = null;
+        try {
+            adminCriado = adminService.criarAdmin(admin.getNome(), admin.getEmail());
+        } catch (ApplicationException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(adminCriado);
     }
 
     @Operation(summary = "Atualiza um admin")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Admin Atualizado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
-        @ApiResponse(responseCode = "400", description = "Admin inválido", content = {@Content}),
+        @ApiResponse(responseCode = "400", description = "Admin inválido", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Admin> atualizarAdmin(@PathVariable UUID id, @RequestBody AdminDTO adminDTO) {
+    public ResponseEntity<?> atualizarAdmin(@PathVariable UUID id, @RequestBody AdminDTO adminDTO) {
         try {
             Admin adminAtualizado = adminService.atualizarAdmin(id, adminDTO.getNome(), adminDTO.getEmail());
             return ResponseEntity.ok(adminAtualizado);
         } catch (ApplicationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 

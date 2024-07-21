@@ -1,5 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IMedicoService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IEspecialidadeRepository;
@@ -22,7 +23,10 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico criarMedico(String nome, String email, String crm) {
+    public Medico criarMedico(String nome, String email, String crm) throws MedicoIllegalArgumentException {
+        if (nome == null || email == null || crm == null) {
+            throw new MedicoIllegalArgumentException("Nome, email e CRM são obrigatórios");
+        }
         Medico medico = new Medico();
         medico.setNome(nome);
         medico.setEmail(email);
@@ -31,7 +35,10 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException {
+    public Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException, MedicoIllegalArgumentException {
+        if (id == null || nome == null || email == null || crm == null) {
+            throw new MedicoIllegalArgumentException("ID, nome, email e CRM são obrigatórios");
+        }
         return medicoRepository.findById(id).map(medico -> {
             medico.setNome(nome);
             medico.setEmail(email);
@@ -41,7 +48,10 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico deletarMedico(UUID id) throws MedicoNotFoundException {
+    public Medico deletarMedico(UUID id) throws MedicoNotFoundException, MedicoIllegalArgumentException {
+        if (id == null) {
+            throw new MedicoIllegalArgumentException("ID é obrigatório");
+        }
         Medico medico = medicoRepository.findById(id).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
         medicoRepository.deleteById(id);
         return medico;

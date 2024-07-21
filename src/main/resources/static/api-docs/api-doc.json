@@ -1,0 +1,1106 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Especialidade",
+      "description": "Endpoints destinado ao cadastro de especialidades"
+    },
+    {
+      "name": "Médico",
+      "description": "Endpoints destinado ao cadastro de médicos"
+    },
+    {
+      "name": "Paciente",
+      "description": "Endpoints destinado ao cadastro de pacientes"
+    },
+    {
+      "name": "Admin",
+      "description": "Endpoints destinado ao cadastro de administradores"
+    }
+  ],
+  "paths": {
+    "/v1/pacientes/{id}": {
+      "get": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Busca um paciente pelo ID",
+        "operationId": "buscarPaciente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paciente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Atualiza um paciente existente",
+        "operationId": "atualizarPaciente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paciente"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Paciente não encontrado"
+          },
+          "200": {
+            "description": "Paciente atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos para atualização"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Exclui um paciente",
+        "operationId": "excluirPaciente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Paciente não encontrado"
+          },
+          "200": {
+            "description": "Paciente excluído com sucesso"
+          }
+        }
+      }
+    },
+    "/v1/medicos/{id}": {
+      "get": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Busca um médico pelo ID",
+        "operationId": "buscarMedico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Médico encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Médico não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Atualiza um médico",
+        "operationId": "atualizarMedico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicoDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Médico inválido"
+          },
+          "200": {
+            "description": "Médico Atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Deleta um médico",
+        "operationId": "deletarMedico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Médico deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Médico não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/especialidades/{id}": {
+      "get": {
+        "tags": [
+          "Especialidade"
+        ],
+        "summary": "Busca uma especialidade pelo ID",
+        "operationId": "buscarEspecialidade",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Especialidade não encontrada"
+          },
+          "200": {
+            "description": "Especialidade encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Especialidade"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Especialidade"
+        ],
+        "summary": "Atualiza uma especialidade",
+        "operationId": "atualizarEspecialidade",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EspecialidadeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Especialidade não encontrada"
+          },
+          "200": {
+            "description": "Especialidade atualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Especialidade"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Especialidade inválida"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Especialidade"
+        ],
+        "summary": "Deleta uma especialidade",
+        "operationId": "deletarEspecialidade",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Especialidade deletada",
+            "content": {
+              "application/json": {
+              }
+            }
+          },
+          "404": {
+            "description": "Especialidade não encontrada"
+          }
+        }
+      }
+    },
+    "/v1/admin/{id}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Recupera um admin pelo ID",
+        "operationId": "buscarAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admin encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Admin não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Atualiza um admin",
+        "operationId": "atualizarAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Admin inválido"
+          },
+          "200": {
+            "description": "Admin Atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Deleta um admin",
+        "operationId": "deletarAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admin deletado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Admin não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/pacientes": {
+      "post": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Cadastra um novo paciente",
+        "operationId": "cadastrarPaciente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paciente"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Dados inválidos para cadastro"
+          },
+          "201": {
+            "description": "Paciente cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/medicos": {
+      "post": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Cria um médico",
+        "operationId": "criarMedico",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MedicoDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Médico inválido"
+          },
+          "201": {
+            "description": "Médico Criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/medicos/{idMedico}/especialidades/{idEspecialidade}": {
+      "post": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Vincula uma especialidade a um médico",
+        "operationId": "vincularEspecialidade",
+        "parameters": [
+          {
+            "name": "idMedico",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "idEspecialidade",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Especialidade vinculada ao médico",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Médico ou especialidade não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Desvincula uma especialidade de um médico",
+        "operationId": "desvincularEspecialidade",
+        "parameters": [
+          {
+            "name": "idMedico",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "idEspecialidade",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Médico ou especialidade não encontrada"
+          },
+          "200": {
+            "description": "Especialidade desvinculada do médico",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/especialidades": {
+      "get": {
+        "tags": [
+          "Especialidade"
+        ],
+        "summary": "Busca todas as especialidades",
+        "operationId": "buscarTodasEspecialidades",
+        "responses": {
+          "204": {
+            "description": "Nenhuma especialidade encontrada"
+          },
+          "200": {
+            "description": "Especialidades encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Especialidade"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Especialidade"
+        ],
+        "summary": "Cria uma especialidade",
+        "operationId": "criarEspecialidade",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EspecialidadeDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Especialidade criada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Especialidade"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Especialidade inválida"
+          }
+        }
+      }
+    },
+    "/v1/admin": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Recupera todos os admins",
+        "operationId": "buscarTodosAdmins",
+        "responses": {
+          "200": {
+            "description": "Admin encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Admin não encontrado"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Cria um admin",
+        "operationId": "criarAdmin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Admin inválido"
+          },
+          "201": {
+            "description": "Admin Criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/pacientes/email/{email}": {
+      "get": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Busca um paciente pelo email",
+        "operationId": "buscarPacientePorEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paciente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/pacientes/cpf/{cpf}": {
+      "get": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Busca um paciente pelo CPF",
+        "operationId": "buscarPacientePorCpf",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paciente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/medicos/especialidade/{idEspecialidade}": {
+      "get": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Busca médicos por especialidade",
+        "operationId": "buscarMedicosPorEspecialidade",
+        "parameters": [
+          {
+            "name": "idEspecialidade",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Médicos encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum médico encontrado"
+          }
+        }
+      }
+    },
+    "/v1/medicos/email/{email}": {
+      "get": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Busca um médico pelo email",
+        "operationId": "buscarMedicoPorEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Médico encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Médico não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/medicos/crm/{crm}": {
+      "get": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Busca um médico pelo CRM",
+        "operationId": "buscarMedicoPorCrm",
+        "parameters": [
+          {
+            "name": "crm",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Médico encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Médico não encontrado"
+          }
+        }
+      }
+    },
+    "/v1/admin/email/{email}": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Atualiza um admin",
+        "operationId": "buscarAdminPeloEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Admin inválido"
+          },
+          "200": {
+            "description": "Admin Atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Paciente": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cpf": {
+            "type": "string"
+          }
+        }
+      },
+      "EspecialidadeDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "descricao": {
+            "type": "string"
+          }
+        }
+      },
+      "MedicoDTO": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "crm": {
+            "type": "string"
+          },
+          "especialidades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EspecialidadeDTO"
+            }
+          }
+        }
+      },
+      "Especialidade": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codigo": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Medico": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "crm": {
+            "type": "string"
+          },
+          "especialidades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Especialidade"
+            }
+          }
+        }
+      },
+      "AdminDTO": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

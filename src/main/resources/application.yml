@@ -36,6 +36,8 @@ logging:
 springdoc:
   api-docs:
     path: /api-docs
+    title: Telemed API
+    description: API para o Hackathon da FIAP - 4SOAT - Grupo 48
   swagger-ui:
     path: /swagger-ui-custom.html
 
