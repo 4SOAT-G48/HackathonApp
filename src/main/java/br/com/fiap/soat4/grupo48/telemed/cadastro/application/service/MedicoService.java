@@ -9,7 +9,6 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class MedicoService implements IMedicoService {
 
@@ -32,9 +31,8 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico atualizarMedico(String id, String nome, String email, String crm) throws MedicoNotFoundException {
-        UUID uuid = UUID.fromString(id);
-        return medicoRepository.findById(uuid).map(medico -> {
+    public Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException {
+        return medicoRepository.findById(id).map(medico -> {
             medico.setNome(nome);
             medico.setEmail(email);
             medico.setCrm(crm);
@@ -43,17 +41,15 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico deletarMedico(String id) throws MedicoNotFoundException {
-        UUID uuid = UUID.fromString(id);
-        Medico medico = medicoRepository.findById(uuid).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
-        medicoRepository.deleteById(uuid);
+    public Medico deletarMedico(UUID id) throws MedicoNotFoundException {
+        Medico medico = medicoRepository.findById(id).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
+        medicoRepository.deleteById(id);
         return medico;
     }
 
     @Override
-    public Medico buscarMedico(String id) throws MedicoNotFoundException {
-        UUID uuid = UUID.fromString(id);
-        return medicoRepository.findById(uuid).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
+    public Medico buscarMedico(UUID id) throws MedicoNotFoundException {
+        return medicoRepository.findById(id).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + id));
     }
 
     @Override
@@ -67,28 +63,25 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public List<Medico> buscarMedicosPorEspecialidade(String idEspecialidade) {
-        UUID especialidadeId = UUID.fromString(idEspecialidade);
+    public List<Medico> buscarMedicosPorEspecialidade(UUID idEspecialidade) {
         return medicoRepository.findAll().stream()
             .filter(medico -> medico.getEspecialidades().stream()
-                .anyMatch(especialidade -> especialidade.getId().equals(especialidadeId)))
-            .collect(Collectors.toList());
+                .anyMatch(especialidade -> especialidade.getId().equals(idEspecialidade)))
+            .toList();
     }
 
     @Override
-    public Medico vincularEspecialidade(String idMedico, String idEspecialidade) throws MedicoNotFoundException {
-        UUID uuidMedico = UUID.fromString(idMedico);
-        Medico medico = medicoRepository.findById(uuidMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
-        Especialidade especialidade = especialidadeRepository.findById(UUID.fromString(idEspecialidade)).orElseThrow(() -> new MedicoNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
+    public Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException {
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
+        Especialidade especialidade = especialidadeRepository.findById(idEspecialidade).orElseThrow(() -> new MedicoNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
         medico.getEspecialidades().add(especialidade);
         return medicoRepository.save(medico);
     }
 
     @Override
-    public Medico desvincularEspecialidade(String idMedico, String idEspecialidade) throws MedicoNotFoundException {
-        UUID uuidMedico = UUID.fromString(idMedico);
-        Medico medico = medicoRepository.findById(uuidMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
-        Especialidade especialidadeToRemove = especialidadeRepository.findById(UUID.fromString(idEspecialidade))
+    public Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException {
+        Medico medico = medicoRepository.findById(idMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
+        Especialidade especialidadeToRemove = especialidadeRepository.findById(idEspecialidade)
             .orElseThrow(() -> new MedicoNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
         medico.getEspecialidades().remove(especialidadeToRemove);
         return medicoRepository.save(medico);

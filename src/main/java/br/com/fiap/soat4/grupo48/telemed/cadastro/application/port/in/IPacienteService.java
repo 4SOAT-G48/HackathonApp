@@ -3,6 +3,8 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.UUID;
+
 /**
  * Interface IPacienteService define os serviços disponíveis para operações relacionadas a pacientes.
  * Inclui funcionalidades para cadastrar, atualizar, excluir pacientes, e buscar pacientes por ID, email ou CPF.
@@ -28,7 +30,7 @@ public interface IPacienteService {
      * @param cpf   O novo CPF para o paciente.
      * @return O objeto Paciente atualizado.
      */
-    Paciente atualizarPaciente(String id, String nome, String email, String cpf) throws PacienteNotFoundException;
+    Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException;
 
     /**
      * Exclui um paciente do sistema, identificado pelo ID fornecido.
@@ -36,7 +38,7 @@ public interface IPacienteService {
      * @param id O identificador único do paciente a ser excluído.
      * @return O objeto Paciente excluído.
      */
-    Paciente excluirPaciente(String id) throws PacienteNotFoundException;
+    Paciente excluirPaciente(UUID id) throws PacienteNotFoundException;
 
     /**
      * Busca um paciente pelo seu identificador único.
@@ -44,7 +46,7 @@ public interface IPacienteService {
      * @param id O identificador único do paciente a ser buscado.
      * @return O objeto Paciente encontrado, ou null caso não seja encontrado.
      */
-    Paciente buscarPaciente(String id) throws PacienteNotFoundException;
+    Paciente buscarPaciente(UUID id) throws PacienteNotFoundException;
 
     /**
      * Busca um paciente pelo seu email.

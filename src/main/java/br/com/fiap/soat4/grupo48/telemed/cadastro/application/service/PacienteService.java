@@ -5,6 +5,8 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IPacienteS
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IPacienteRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.UUID;
+
 public class PacienteService implements IPacienteService {
 
     public static final String PACIENTE_NAO_ENCONTRADO_COM_ID = "Paciente não encontrado com ID: ";
@@ -24,7 +26,7 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente atualizarPaciente(String id, String nome, String email, String cpf) throws PacienteNotFoundException {
+    public Paciente atualizarPaciente(UUID id, String nome, String email, String cpf) throws PacienteNotFoundException {
         return pacienteRepository.findById(id).map(paciente -> {
             paciente.setNome(nome);
             paciente.setEmail(email);
@@ -34,14 +36,14 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public Paciente excluirPaciente(String id) throws PacienteNotFoundException {
+    public Paciente excluirPaciente(UUID id) throws PacienteNotFoundException {
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
         pacienteRepository.deleteById(id);
         return paciente;
     }
 
     @Override
-    public Paciente buscarPaciente(String id) throws PacienteNotFoundException {
+    public Paciente buscarPaciente(UUID id) throws PacienteNotFoundException {
         return pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
     }
 

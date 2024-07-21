@@ -3,6 +3,9 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Especialidade;
 
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Interface IEspecialidadeService define os serviços disponíveis para operações relacionadas a especialidades médicas.
  * Inclui funcionalidades para cadastrar, atualizar e excluir especialidades.
@@ -26,7 +29,7 @@ public interface IEspecialidadeService {
      * @param descricao A nova descrição para a especialidade.
      * @return O objeto Especialidade atualizado.
      */
-    Especialidade atualizarEspecialidade(String id, Long codigo, String descricao) throws EspecialidadeNotFoundException;
+    Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException;
 
     /**
      * Exclui uma especialidade do sistema, identificada pelo ID fornecido.
@@ -34,5 +37,20 @@ public interface IEspecialidadeService {
      * @param id O identificador único da especialidade a ser excluída.
      * @return O objeto Especialidade excluído.
      */
-    Especialidade deletarEspecialidade(String id) throws EspecialidadeNotFoundException;
+    Especialidade deletarEspecialidade(UUID id) throws EspecialidadeNotFoundException;
+
+    /**
+     * Busca todas as especialidades cadastradas no sistema.
+     *
+     * @return Uma lista de {@link Especialidade}, que pode estar vazia caso não existam especialidades cadastradas.
+     */
+    List<Especialidade> buscarTodasEspecialidades();
+
+    /**
+     * Busca uma especialidade específica pelo seu identificador único.
+     *
+     * @param id O identificador único da especialidade a ser buscada.
+     * @return Um objeto {@link Especialidade} correspondente ao identificador fornecido. Pode retornar {@code null} caso a especialidade não seja encontrada.
+     */
+    Especialidade buscarEspecialidade(UUID id) throws EspecialidadeNotFoundException;
 }

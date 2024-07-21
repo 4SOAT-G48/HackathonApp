@@ -4,6 +4,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNo
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface IMedicoService define os serviços disponíveis para operações relacionadas a médicos.
@@ -31,7 +32,7 @@ public interface IMedicoService {
      * @param crm   O novo CRM para o médico.
      * @return O objeto Medico atualizado.
      */
-    Medico atualizarMedico(String id, String nome, String email, String crm) throws MedicoNotFoundException;
+    Medico atualizarMedico(UUID id, String nome, String email, String crm) throws MedicoNotFoundException;
 
     /**
      * Exclui um médico do sistema, identificado pelo ID fornecido.
@@ -39,7 +40,7 @@ public interface IMedicoService {
      * @param id O identificador único do médico a ser excluído.
      * @return O objeto Medico excluído.
      */
-    Medico deletarMedico(String id) throws MedicoNotFoundException;
+    Medico deletarMedico(UUID id) throws MedicoNotFoundException;
 
     /**
      * Busca um médico pelo seu identificador único.
@@ -47,7 +48,7 @@ public interface IMedicoService {
      * @param id O identificador único do médico a ser buscado.
      * @return O objeto Medico encontrado, ou null caso não seja encontrado.
      */
-    Medico buscarMedico(String id) throws MedicoNotFoundException;
+    Medico buscarMedico(UUID id) throws MedicoNotFoundException;
 
     /**
      * Busca um médico pelo seu email.
@@ -71,7 +72,7 @@ public interface IMedicoService {
      * @param idEspecialidade O identificador único da especialidade.
      * @return Uma lista de objetos Medico que possuem a especialidade especificada.
      */
-    List<Medico> buscarMedicosPorEspecialidade(String idEspecialidade);
+    List<Medico> buscarMedicosPorEspecialidade(UUID idEspecialidade);
 
     /**
      * Vincula uma especialidade, identificada pelo seu ID, a um médico, também identificado pelo seu ID.
@@ -80,7 +81,7 @@ public interface IMedicoService {
      * @param idEspecialidade O identificador único da especialidade a ser vinculada.
      * @return O objeto Medico com a especialidade vinculada.
      */
-    Medico vincularEspecialidade(String idMedico, String idEspecialidade) throws MedicoNotFoundException;
+    Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException;
 
     /**
      * Desvincula uma especialidade, identificada pelo seu ID, de um médico, também identificado pelo seu ID.
@@ -89,5 +90,5 @@ public interface IMedicoService {
      * @param idEspecialidade O identificador único da especialidade a ser desvinculada.
      * @return O objeto Medico com a especialidade desvinculada.
      */
-    Medico desvincularEspecialidade(String idMedico, String idEspecialidade) throws MedicoNotFoundException;
+    Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException;
 }

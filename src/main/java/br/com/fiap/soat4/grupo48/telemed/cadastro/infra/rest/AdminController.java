@@ -67,7 +67,7 @@ public class AdminController {
         }
     }
 
-    @Operation(summary = "Recupera um admin pelo ID")
+    @Operation(summary = "Recupera todos os admins")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Admin encontrado", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Admin.class))}),
         @ApiResponse(responseCode = "404", description = "Admin não encontrado", content = {@Content}),

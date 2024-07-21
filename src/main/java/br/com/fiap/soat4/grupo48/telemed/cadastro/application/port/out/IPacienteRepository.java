@@ -3,6 +3,7 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Interface IPacienteRepository define os métodos de acesso ao banco de dados para os pacientes.
@@ -23,7 +24,7 @@ public interface IPacienteRepository {
      * @param id O ID do paciente.
      * @return Um Optional contendo o paciente encontrado ou um Optional vazio se não encontrar.
      */
-    Optional<Paciente> findById(String id);
+    Optional<Paciente> findById(UUID id);
 
     /**
      * Busca um paciente pelo seu email.
@@ -46,5 +47,5 @@ public interface IPacienteRepository {
      *
      * @param id O ID do paciente a ser excluído.
      */
-    void deleteById(String id);
+    void deleteById(UUID id);
 }

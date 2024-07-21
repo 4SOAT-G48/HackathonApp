@@ -18,7 +18,7 @@ import java.util.*;
 @AllArgsConstructor
 public class EspecialidadeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private Long codigo;
     private String descricao;

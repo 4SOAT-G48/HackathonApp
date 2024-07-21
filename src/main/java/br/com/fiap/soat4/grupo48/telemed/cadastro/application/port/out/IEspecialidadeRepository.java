@@ -2,6 +2,7 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out;
 
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Especialidade;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,4 +33,11 @@ public interface IEspecialidadeRepository {
      * @param id O ID da especialidade a ser excluída.
      */
     void deleteById(UUID id);
+
+    /**
+     * Busca todas as especialidades cadastradas no banco de dados.
+     *
+     * @return Uma lista com todas as especialidades cadastradas.
+     */
+    List<Especialidade> findAll();
 }

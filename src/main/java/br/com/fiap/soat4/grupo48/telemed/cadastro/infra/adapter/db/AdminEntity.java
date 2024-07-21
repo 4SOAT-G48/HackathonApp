@@ -13,8 +13,8 @@ import lombok.Setter;
  * Utiliza anotações do JPA para mapeamento objeto-relacional.
  */
 @Entity
-@Table(name = "ADMIN")
 @DiscriminatorValue("ADMIN") // Define o valor do discriminador para diferenciar entre tipos de Pessoa.
+@Table(name = "ADMIN")
 @Getter
 @Setter
 @AllArgsConstructor

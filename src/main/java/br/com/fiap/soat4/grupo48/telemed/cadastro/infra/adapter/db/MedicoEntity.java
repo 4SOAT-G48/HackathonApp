@@ -9,8 +9,8 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "MEDICO")
 @DiscriminatorValue("MEDICO")
+@Table(name = "MEDICO")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -17,15 +17,13 @@ import java.util.UUID;
  */
 @Setter
 @Getter
-@MappedSuperclass
 // Indica que esta classe é uma superclasse mapeada e seus atributos serão mapeados nas classes filhas.
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Define a estratégia de herança como tabela única.
+@MappedSuperclass
 @DiscriminatorColumn(name = "tipo_pessoa", discriminatorType = DiscriminatorType.STRING)
 // Define a coluna discriminadora para diferenciar os tipos de Pessoa.
 public abstract class PessoaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura a geração automática do identificador.
+    @GeneratedValue(strategy = GenerationType.UUID) // Configura a geração automática do identificador.
     private UUID id;
     private String nome;
     private String email;
