@@ -18,7 +18,10 @@ import java.util.List;
 public class MedicoEntity extends PessoaEntity {
 
     private String crm;
-    @ManyToMany
+    @ManyToMany(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
     @JoinTable(
         name = "medico_especialidade",
         joinColumns = @JoinColumn(name = "medico_id"),

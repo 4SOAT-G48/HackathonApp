@@ -1,9 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -12,9 +9,10 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Especialidade {
     private UUID id;
-    private Long codigo;
+    private String codigo;
     private String descricao;
     private Date dataCriacao;
     private Date dataAtualizacao;

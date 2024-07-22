@@ -29,7 +29,9 @@ public class CadastroBeanConfiguration {
     }
 
     @Bean
-    IMedicoService medicoService(IMedicoRepository medicoRepository, IEspecialidadeRepository especialidadeRepository) {
+    IMedicoService medicoService(
+        IMedicoRepository medicoRepository,
+        IEspecialidadeRepository especialidadeRepository) {
         return new MedicoService(medicoRepository, especialidadeRepository);
     }
 

@@ -34,9 +34,34 @@ public interface IMedicoRepository {
      */
     void deleteById(UUID id);
 
+    /**
+     * Busca um médico pelo seu email.
+     *
+     * @param email O email do médico.
+     * @return Um Optional contendo o médico encontrado ou um Optional vazio se não encontrar.
+     */
     Optional<Medico> findByEmail(String email);
 
+    /**
+     * Busca um médico pelo seu CRM.
+     *
+     * @param crm O CRM do médico.
+     * @return Um Optional contendo o médico encontrado ou um Optional vazio se não encontrar.
+     */
     Optional<Medico> findByCrm(String crm);
 
+    /**
+     * Busca todos os médicos cadastrados no sistema.
+     *
+     * @return Uma lista de médicos, que pode estar vazia caso não existam médicos cadastrados.
+     */
     List<Medico> findAll();
+
+    /**
+     * Busca todos os médicos que possuem uma especialidade com o ID fornecido.
+     *
+     * @param especialidadeId O ID da especialidade a ser buscada.
+     * @return Uma lista de médicos que possuem a especialidade com o ID fornecido.
+     */
+    List<Medico> findByEspecialidadesId(UUID especialidadeId);
 }

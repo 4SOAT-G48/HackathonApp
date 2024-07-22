@@ -1,5 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeAlreadyLinkedException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
@@ -81,7 +83,7 @@ public interface IMedicoService {
      * @param idEspecialidade O identificador único da especialidade a ser vinculada.
      * @return O objeto Medico com a especialidade vinculada.
      */
-    Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException;
+    Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException, EspecialidadeNotFoundException, EspecialidadeAlreadyLinkedException;
 
     /**
      * Desvincula uma especialidade, identificada pelo seu ID, de um médico, também identificado pelo seu ID.

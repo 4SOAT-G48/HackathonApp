@@ -1,6 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.infra.adapter.db;
 
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IMedicoRepository;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Especialidade;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Implementação do repositório de Médico que interage com a base de dados.
@@ -57,6 +59,12 @@ public class MedicoRepository implements IMedicoRepository {
         return entities.stream().map(this::convertToDomain).toList();
     }
 
+    @Override
+    public List<Medico> findByEspecialidadesId(UUID especialidadeId) {
+        List<MedicoEntity> entities = medicoSpringRepository.findByEspecialidadesId(especialidadeId);
+        return entities.stream().map(this::convertToDomain).toList();
+    }
+
     @NotNull
     private MedicoEntity convertToEntity(@NotNull Medico medico) {
         MedicoEntity entity = new MedicoEntity();
@@ -66,6 +74,7 @@ public class MedicoRepository implements IMedicoRepository {
         entity.setCrm(medico.getCrm());
         entity.setDataCriacao(medico.getDataCriacao());
         entity.setDataAtualizacao(medico.getDataAtualizacao());
+        entity.setEspecialidades(medico.getEspecialidades().stream().map(this::convertToEntity).collect(Collectors.toList()));
         return entity;
     }
 
@@ -78,6 +87,28 @@ public class MedicoRepository implements IMedicoRepository {
         medico.setCrm(entity.getCrm());
         medico.setDataCriacao(entity.getDataCriacao());
         medico.setDataAtualizacao(entity.getDataAtualizacao());
+        medico.setEspecialidades(entity.getEspecialidades().stream().map(this::convertToDomain).collect(Collectors.toList()));
         return medico;
+    }
+
+
+    private EspecialidadeEntity convertToEntity(Especialidade especialidade) {
+        EspecialidadeEntity entity = new EspecialidadeEntity();
+        entity.setId(especialidade.getId());
+        entity.setCodigo(especialidade.getCodigo());
+        entity.setDescricao(especialidade.getDescricao());
+        entity.setDataCriacao(especialidade.getDataCriacao());
+        entity.setDataAtualizacao(especialidade.getDataAtualizacao());
+        return entity;
+    }
+
+    private Especialidade convertToDomain(EspecialidadeEntity entity) {
+        Especialidade especialidade = new Especialidade();
+        especialidade.setId(entity.getId());
+        especialidade.setCodigo(entity.getCodigo());
+        especialidade.setDescricao(entity.getDescricao());
+        especialidade.setDataCriacao(entity.getDataCriacao());
+        especialidade.setDataAtualizacao(entity.getDataAtualizacao());
+        return especialidade;
     }
 }

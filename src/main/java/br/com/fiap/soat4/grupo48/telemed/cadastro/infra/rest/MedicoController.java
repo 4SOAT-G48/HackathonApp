@@ -1,5 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.infra.rest;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeAlreadyLinkedException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IMedicoService;
@@ -147,14 +149,16 @@ public class MedicoController {
         @ApiResponse(responseCode = "400", description = "Requisição inválida", content = {@Content})
     })
     @PostMapping("/{idMedico}/especialidades/{idEspecialidade}")
-    public ResponseEntity<Medico> vincularEspecialidade(@PathVariable UUID idMedico, @PathVariable UUID idEspecialidade) {
+    public ResponseEntity<?> vincularEspecialidade(@PathVariable UUID idMedico, @PathVariable UUID idEspecialidade) {
         try {
             Medico medico = medicoService.vincularEspecialidade(idMedico, idEspecialidade);
             return ResponseEntity.ok(medico);
-        } catch (MedicoNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } catch (MedicoNotFoundException | EspecialidadeNotFoundException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        } catch (EspecialidadeAlreadyLinkedException e) {
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 

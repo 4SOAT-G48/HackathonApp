@@ -20,7 +20,7 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade criarEspecialidade(Long codigo, String descricao) throws EspecialidadeIllegalArgumentException {
+    public Especialidade criarEspecialidade(String codigo, String descricao) throws EspecialidadeIllegalArgumentException {
         if (Objects.isNull(codigo) || Objects.isNull(descricao)) {
             throw new EspecialidadeIllegalArgumentException("Código e descrição são obrigatórios");
         }
@@ -32,7 +32,7 @@ public class EspecialidadeService implements IEspecialidadeService {
     }
 
     @Override
-    public Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
+    public Especialidade atualizarEspecialidade(UUID id, String codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException {
         if (Objects.isNull(id) || Objects.isNull(codigo) || Objects.isNull(descricao)) {
             throw new EspecialidadeIllegalArgumentException("ID, código e descrição são obrigatórios");
         }

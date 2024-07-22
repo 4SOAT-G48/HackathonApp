@@ -20,7 +20,7 @@ public class EspecialidadeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private Long codigo;
+    private String codigo;
     private String descricao;
 
     @ManyToMany(

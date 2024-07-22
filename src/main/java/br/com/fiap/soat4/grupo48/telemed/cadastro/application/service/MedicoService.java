@@ -1,5 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeAlreadyLinkedException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IMedicoService;
@@ -73,18 +75,18 @@ public class MedicoService implements IMedicoService {
 
     @Override
     public List<Medico> buscarMedicosPorEspecialidade(UUID idEspecialidade) {
-        return medicoRepository.findAll().stream()
-            .filter(medico -> medico.getEspecialidades().stream()
-                .anyMatch(especialidade -> especialidade.getId().equals(idEspecialidade)))
-            .toList();
+        return medicoRepository.findByEspecialidadesId(idEspecialidade);
     }
 
     @Override
-    public Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException {
+    public Medico vincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException, EspecialidadeNotFoundException, EspecialidadeAlreadyLinkedException {
         Medico medico = medicoRepository.findById(idMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
-        Especialidade especialidade = especialidadeRepository.findById(idEspecialidade).orElseThrow(() -> new MedicoNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
-        medico.getEspecialidades().add(especialidade);
-        return medicoRepository.save(medico);
+        Especialidade especialidade = especialidadeRepository.findById(idEspecialidade).orElseThrow(() -> new EspecialidadeNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
+        if (medico.addEspecialidade(especialidade)) {
+            return medicoRepository.save(medico);
+        } else {
+            throw new EspecialidadeAlreadyLinkedException("Especialidade já vinculada ao médico");
+        }
     }
 
     @Override

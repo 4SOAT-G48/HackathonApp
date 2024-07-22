@@ -20,7 +20,7 @@ public interface IEspecialidadeService {
      * @param descricao A descrição da especialidade a ser cadastrada.
      * @return O objeto Especialidade cadastrado.
      */
-    Especialidade criarEspecialidade(Long codigo, String descricao) throws EspecialidadeIllegalArgumentException;
+    Especialidade criarEspecialidade(String codigo, String descricao) throws EspecialidadeIllegalArgumentException;
 
     /**
      * Atualiza uma especialidade existente, identificada pelo ID, com novos valores de código e descrição.
@@ -30,7 +30,7 @@ public interface IEspecialidadeService {
      * @param descricao A nova descrição para a especialidade.
      * @return O objeto Especialidade atualizado.
      */
-    Especialidade atualizarEspecialidade(UUID id, Long codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
+    Especialidade atualizarEspecialidade(UUID id, String codigo, String descricao) throws EspecialidadeNotFoundException, EspecialidadeIllegalArgumentException;
 
     /**
      * Exclui uma especialidade do sistema, identificada pelo ID fornecido.

@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EspecialidadeDTO {
-    private Long codigo;
+    private String codigo;
     private String descricao;
 
 }
