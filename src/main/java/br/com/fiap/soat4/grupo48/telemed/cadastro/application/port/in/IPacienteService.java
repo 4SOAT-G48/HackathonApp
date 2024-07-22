@@ -4,6 +4,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.Paciente
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -47,6 +48,8 @@ public interface IPacienteService {
      * @return O objeto Paciente encontrado, ou null caso não seja encontrado.
      */
     Paciente buscarPaciente(UUID id) throws PacienteNotFoundException;
+
+    List<Paciente> buscarTodosPacientes();
 
     /**
      * Busca um paciente pelo seu email.

@@ -2,6 +2,7 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out;
 
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,4 +49,11 @@ public interface IPacienteRepository {
      * @param id O ID do paciente a ser excluído.
      */
     void deleteById(UUID id);
+
+    /**
+     * Busca todos os pacientes cadastrados no sistema.
+     *
+     * @return Uma lista contendo todos os pacientes cadastrados.
+     */
+    List<Paciente> findAll();
 }

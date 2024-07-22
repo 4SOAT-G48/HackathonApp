@@ -6,6 +6,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IPacienteS
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IPacienteRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -55,6 +56,11 @@ public class PacienteService implements IPacienteService {
     @Override
     public Paciente buscarPaciente(UUID id) throws PacienteNotFoundException {
         return pacienteRepository.findById(id).orElseThrow(() -> new PacienteNotFoundException(PACIENTE_NAO_ENCONTRADO_COM_ID + id));
+    }
+
+    @Override
+    public List<Paciente> buscarTodosPacientes() {
+        return pacienteRepository.findAll();
     }
 
     @Override

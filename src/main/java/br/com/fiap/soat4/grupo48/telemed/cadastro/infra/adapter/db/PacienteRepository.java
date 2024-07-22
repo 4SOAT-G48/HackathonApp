@@ -4,6 +4,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IPaciente
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,6 +43,12 @@ public class PacienteRepository implements IPacienteRepository {
     @Override
     public void deleteById(UUID id) {
         pacienteSpringRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Paciente> findAll() {
+        List<PacienteEntity> entities = pacienteSpringRepository.findAll();
+        return entities.stream().map(this::convertToDomain).toList();
     }
 
     private PacienteEntity convertToEntity(Paciente paciente) {

@@ -36,7 +36,7 @@ public class PacienteController {
         @ApiResponse(responseCode = "400", description = "Dados inválidos para cadastro", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping
-    public ResponseEntity<?> cadastrarPaciente(@RequestBody Paciente paciente) {
+    public ResponseEntity<?> cadastrarPaciente(@RequestBody PacienteDTO paciente) {
         Paciente novoPaciente = null;
         try {
             novoPaciente = pacienteService.cadastrarPaciente(paciente.getNome(), paciente.getEmail(), paciente.getCpf());
@@ -54,7 +54,7 @@ public class PacienteController {
         @ApiResponse(responseCode = "400", description = "Dados inválidos para atualização", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarPaciente(@PathVariable UUID id, @RequestBody Paciente paciente) {
+    public ResponseEntity<?> atualizarPaciente(@PathVariable UUID id, @RequestBody PacienteDTO paciente) {
         try {
             Paciente pacienteAtualizado = pacienteService.atualizarPaciente(id, paciente.getNome(), paciente.getEmail(), paciente.getCpf());
             return ResponseEntity.ok(pacienteAtualizado);
@@ -128,5 +128,15 @@ public class PacienteController {
         } catch (PacienteNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @Operation(summary = "Busca todos os pacientes cadastrados")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Pacientes encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Paciente.class))),
+        @ApiResponse(responseCode = "404", description = "Nenhum paciente encontrado", content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<?> buscarTodosPacientes() {
+        return ResponseEntity.ok(pacienteService.buscarTodosPacientes());
     }
 }
