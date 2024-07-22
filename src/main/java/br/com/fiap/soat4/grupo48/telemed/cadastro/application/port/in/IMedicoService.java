@@ -1,9 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in;
 
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeAlreadyLinkedException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.*;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 
 import java.util.List;
@@ -92,5 +89,5 @@ public interface IMedicoService {
      * @param idEspecialidade O identificador único da especialidade a ser desvinculada.
      * @return O objeto Medico com a especialidade desvinculada.
      */
-    Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException;
+    Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException, EspecialidadeNotLinkedException, EspecialidadeNotFoundException;
 }

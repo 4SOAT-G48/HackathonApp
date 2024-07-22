@@ -1,9 +1,6 @@
 package br.com.fiap.soat4.grupo48.telemed.cadastro.application.service;
 
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeAlreadyLinkedException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.EspecialidadeNotFoundException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoIllegalArgumentException;
-import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.*;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IMedicoService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IEspecialidadeRepository;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IMedicoRepository;
@@ -90,11 +87,14 @@ public class MedicoService implements IMedicoService {
     }
 
     @Override
-    public Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException {
+    public Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException, EspecialidadeNotLinkedException, EspecialidadeNotFoundException {
         Medico medico = medicoRepository.findById(idMedico).orElseThrow(() -> new MedicoNotFoundException(MEDICO_NAO_ENCONTRADO_COM_ID + idMedico));
         Especialidade especialidadeToRemove = especialidadeRepository.findById(idEspecialidade)
-            .orElseThrow(() -> new MedicoNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
-        medico.getEspecialidades().remove(especialidadeToRemove);
-        return medicoRepository.save(medico);
+            .orElseThrow(() -> new EspecialidadeNotFoundException("Especialidade não encontrada com ID: " + idEspecialidade));
+        if (medico.removeEspecialidade(especialidadeToRemove)) {
+            return medicoRepository.save(medico);
+        } else {
+            throw new EspecialidadeNotLinkedException("Especialidade não está vinculada ao médico");
+        }
     }
 }
