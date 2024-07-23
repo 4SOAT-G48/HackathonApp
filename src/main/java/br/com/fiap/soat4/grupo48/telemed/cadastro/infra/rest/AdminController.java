@@ -3,7 +3,9 @@ package br.com.fiap.soat4.grupo48.telemed.cadastro.infra.rest;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.in.IAdminService;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Admin;
 import br.com.fiap.soat4.grupo48.telemed.commons.exception.ApplicationException;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,9 +19,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@OpenAPIDefinition(
+    info = @Info(
+        title = "Telemed",
+        description = "API para cadastro de médicos, pacientes, administradores, especialidades, horários disponíveis e consultas",
+        version = "v1.0"
+    )
+)
 @Tag(name = "Admin", description = "Endpoints destinado ao cadastro de administradores")
 @RestController
-@RequestMapping("/v1/admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final IAdminService adminService;
 

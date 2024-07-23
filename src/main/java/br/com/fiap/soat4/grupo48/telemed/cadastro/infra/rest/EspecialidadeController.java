@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Tag(name = "Especialidade", description = "Endpoints destinado ao cadastro de especialidades")
 @RestController
-@RequestMapping("/v1/especialidades")
+@RequestMapping("/especialidades")
 public class EspecialidadeController {
     private final IEspecialidadeService especialidadeService;
 
