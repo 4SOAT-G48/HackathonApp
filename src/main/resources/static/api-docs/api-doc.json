@@ -26,6 +26,10 @@
     {
       "name": "Admin",
       "description": "Endpoints destinado ao cadastro de administradores"
+    },
+    {
+      "name": "HorarioDisponivel",
+      "description": "Endpoints para gerenciamento de horários disponíveis"
     }
   ],
   "paths": {
@@ -84,15 +88,22 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Paciente"
+                "$ref": "#/components/schemas/PacienteDTO"
               }
             }
           },
           "required": true
         },
         "responses": {
-          "404": {
-            "description": "Paciente não encontrado"
+          "400": {
+            "description": "Dados inválidos para atualização",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "200": {
             "description": "Paciente atualizado com sucesso",
@@ -104,8 +115,8 @@
               }
             }
           },
-          "400": {
-            "description": "Dados inválidos para atualização"
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       },
@@ -127,11 +138,21 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Paciente não encontrado"
-          },
           "200": {
             "description": "Paciente excluído com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para exclusão",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       }
@@ -155,6 +176,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Médico não encontrado"
+          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -164,9 +188,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Médico não encontrado"
           }
         }
       },
@@ -199,7 +220,14 @@
         },
         "responses": {
           "400": {
-            "description": "Médico inválido"
+            "description": "Médico inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "200": {
             "description": "Médico Atualizado",
@@ -231,6 +259,19 @@
           }
         ],
         "responses": {
+          "400": {
+            "description": "Requisição inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Médico não encontrado"
+          },
           "200": {
             "description": "Médico deletado",
             "content": {
@@ -240,9 +281,113 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/v1/horarios-disponiveis/{id}": {
+      "get": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Busca um horário disponível pelo ID",
+        "operationId": "buscarHorarioDisponivelPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Horário disponível encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HorarioDisponivel"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Médico não encontrado"
+            "description": "Horário disponível não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Atualiza um horário disponível",
+        "operationId": "atualizarHorarioDisponivel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HorarioDisponivel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Horário disponível não encontrado"
+          },
+          "400": {
+            "description": "Dados inválidos para atualização"
+          },
+          "200": {
+            "description": "Horário disponível atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HorarioDisponivel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Deleta um horário disponível pelo ID",
+        "operationId": "deletarHorarioDisponivel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Horário disponível deletado"
+          },
+          "404": {
+            "description": "Horário disponível não encontrado"
           }
         }
       }
@@ -266,9 +411,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Especialidade não encontrada"
-          },
           "200": {
             "description": "Especialidade encontrada",
             "content": {
@@ -278,6 +420,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Especialidade não encontrada"
           }
         }
       },
@@ -310,7 +455,17 @@
         },
         "responses": {
           "404": {
-            "description": "Especialidade não encontrada"
+            "description": "Especialidade não encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Especialidade inválida"
           },
           "200": {
             "description": "Especialidade atualizada",
@@ -321,9 +476,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Especialidade inválida"
           }
         }
       },
@@ -348,8 +500,7 @@
           "200": {
             "description": "Especialidade deletada",
             "content": {
-              "application/json": {
-              }
+              "application/json": {}
             }
           },
           "404": {
@@ -377,6 +528,16 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Admin não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "200": {
             "description": "Admin encontrado",
             "content": {
@@ -386,9 +547,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Admin não encontrado"
           }
         }
       },
@@ -421,7 +579,14 @@
         },
         "responses": {
           "400": {
-            "description": "Admin inválido"
+            "description": "Admin inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "200": {
             "description": "Admin Atualizado",
@@ -470,6 +635,28 @@
       }
     },
     "/v1/pacientes": {
+      "get": {
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Busca todos os pacientes cadastrados",
+        "operationId": "buscarTodosPacientes",
+        "responses": {
+          "404": {
+            "description": "Nenhum paciente encontrado"
+          },
+          "200": {
+            "description": "Pacientes encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Paciente"
@@ -480,22 +667,29 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Paciente"
+                "$ref": "#/components/schemas/PacienteDTO"
               }
             }
           },
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Dados inválidos para cadastro"
-          },
           "201": {
             "description": "Paciente cadastrado com sucesso",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Paciente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos para cadastro",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -521,15 +715,22 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Médico inválido"
-          },
           "201": {
             "description": "Médico Criado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Médico inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -575,11 +776,11 @@
               }
             }
           },
-          "400": {
-            "description": "Requisição inválida"
-          },
           "404": {
             "description": "Médico ou especialidade não encontrada"
+          },
+          "400": {
+            "description": "Requisição inválida"
           }
         }
       },
@@ -610,12 +811,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "404": {
-            "description": "Médico ou especialidade não encontrada"
-          },
           "200": {
             "description": "Especialidade desvinculada do médico",
             "content": {
@@ -625,6 +820,68 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico ou especialidade não encontrada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/v1/horarios-disponiveis": {
+      "get": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Busca todos os horários disponíveis",
+        "operationId": "buscarTodosHorariosDisponiveis",
+        "responses": {
+          "204": {
+            "description": "Nenhum horário disponível encontrado"
+          },
+          "200": {
+            "description": "Horários disponíveis encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HorarioDisponivel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Cria um novo horário disponível",
+        "operationId": "criarHorarioDisponivel",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HorarioDisponivel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Horário disponível criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HorarioDisponivel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           }
         }
       }
@@ -637,9 +894,6 @@
         "summary": "Busca todas as especialidades",
         "operationId": "buscarTodasEspecialidades",
         "responses": {
-          "204": {
-            "description": "Nenhuma especialidade encontrada"
-          },
           "200": {
             "description": "Especialidades encontradas",
             "content": {
@@ -649,6 +903,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma especialidade encontrada"
           }
         }
       },
@@ -669,6 +926,16 @@
           "required": true
         },
         "responses": {
+          "400": {
+            "description": "Especialidade inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Especialidade criada",
             "content": {
@@ -678,9 +945,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Especialidade inválida"
           }
         }
       }
@@ -726,7 +990,14 @@
         },
         "responses": {
           "400": {
-            "description": "Admin inválido"
+            "description": "Admin inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "201": {
             "description": "Admin Criado",
@@ -828,6 +1099,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Nenhum médico encontrado"
+          },
           "200": {
             "description": "Médicos encontrados",
             "content": {
@@ -837,9 +1111,6 @@
                 }
               }
             }
-          },
-          "204": {
-            "description": "Nenhum médico encontrado"
           }
         }
       }
@@ -862,6 +1133,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Médico não encontrado"
+          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -871,9 +1145,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Médico não encontrado"
           }
         }
       }
@@ -896,6 +1167,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Médico não encontrado"
+          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -905,9 +1179,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Médico não encontrado"
           }
         }
       }
@@ -930,11 +1201,18 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Admin inválido"
+          "404": {
+            "description": "Admin não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           },
           "200": {
-            "description": "Admin Atualizado",
+            "description": "Admin encontrado",
             "content": {
               "application/json": {
                 "schema": {
@@ -949,6 +1227,32 @@
   },
   "components": {
     "schemas": {
+      "PacienteDTO": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "Paciente": {
         "type": "object",
         "properties": {
@@ -975,22 +1279,6 @@
           }
         }
       },
-      "EspecialidadeDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "codigo": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "descricao": {
-            "type": "string"
-          }
-        }
-      },
       "MedicoDTO": {
         "type": "object",
         "properties": {
@@ -1002,12 +1290,6 @@
           },
           "crm": {
             "type": "string"
-          },
-          "especialidades": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EspecialidadeDTO"
-            }
           }
         }
       },
@@ -1019,8 +1301,7 @@
             "format": "uuid"
           },
           "codigo": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           },
           "descricao": {
             "type": "string"
@@ -1064,6 +1345,50 @@
             "items": {
               "$ref": "#/components/schemas/Especialidade"
             }
+          }
+        }
+      },
+      "HorarioDisponivel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "medicoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "data": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horaFim": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "EspecialidadeDTO": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
           }
         }
       },
