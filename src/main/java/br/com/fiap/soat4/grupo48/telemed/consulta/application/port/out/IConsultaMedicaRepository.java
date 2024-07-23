@@ -17,7 +17,7 @@ public interface IConsultaMedicaRepository {
      * @param consultaMedica A consulta médica a ser salva.
      * @return A consulta médica salva.
      */
-    ConsultaMedica salvarConsulta(ConsultaMedica consultaMedica);
+    ConsultaMedica saveConsulta(ConsultaMedica consultaMedica);
 
     /**
      * Busca uma consulta médica pelo seu ID.
@@ -25,14 +25,14 @@ public interface IConsultaMedicaRepository {
      * @param id O ID da consulta médica.
      * @return A consulta médica encontrada.
      */
-    ConsultaMedica buscarConsultaPorId(UUID id);
+    ConsultaMedica findConsultaById(UUID id);
 
     /**
      * Busca todas as consultas médicas cadastradas no sistema.
      *
      * @return Uma lista contendo todas as consultas médicas cadastradas.
      */
-    List<ConsultaMedica> buscarConsultasPorPaciente(UUID pacienteId);
+    List<ConsultaMedica> findConsultasByPaciente(UUID pacienteId);
 
     /**
      * Busca todas as consultas médicas de um médico.
@@ -40,41 +40,137 @@ public interface IConsultaMedicaRepository {
      * @param medicoId O ID do médico.
      * @return Uma lista contendo todas as consultas médicas do médico.
      */
-    List<ConsultaMedica> buscarConsultasPorMedico(UUID medicoId);
+    List<ConsultaMedica> findConsultasByMedico(UUID medicoId);
 
-    List<ConsultaMedica> buscarConsultasPorData(Date data);
-    
-    List<ConsultaMedica> buscarConsultasPorPeriodo(Date dataInicio, Date dataFim);
+    /**
+     * Busca consultas médicas pela data específica.
+     *
+     * @param data A data para buscar as consultas médicas.
+     * @return Uma lista de consultas médicas agendadas para a data especificada.
+     */
+    List<ConsultaMedica> findConsultasByData(Date data);
 
-    void cancelarConsulta(UUID id, String justificativa);
+    /**
+     * Busca consultas médicas em um período específico.
+     *
+     * @param dataInicio A data de início do período para buscar as consultas médicas.
+     * @param dataFim    A data de fim do período para buscar as consultas médicas.
+     * @return Uma lista de consultas médicas agendadas dentro do período especificado.
+     */
+    List<ConsultaMedica> findConsultasByPeriodo(Date dataInicio, Date dataFim);
 
-    void confirmarConsulta(UUID id);
+    /**
+     * Deleta uma consulta médica do banco de dados.
+     *
+     * @param id O ID da consulta médica a ser deletada.
+     */
+    void deleteConsulta(UUID id);
 
-    void recusarConsulta(UUID id);
+    /**
+     * Busca consultas médicas com base no status.
+     *
+     * @param status O status da consulta médica.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido.
+     */
+    List<ConsultaMedica> findConsultasByStatus(SituacaoConsultaMedica status);
 
-    void realizarConsulta(UUID id);
+    /**
+     * Busca consultas médicas com base no status e no ID do paciente.
+     *
+     * @param status     O status da consulta médica.
+     * @param pacienteId O ID do paciente.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido e ao ID do paciente.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPaciente(SituacaoConsultaMedica status, UUID pacienteId);
 
-    void deletarConsulta(UUID id);
+    /**
+     * Busca consultas médicas com base no status e no ID do médico.
+     *
+     * @param status   O status da consulta médica.
+     * @param medicoId O ID do médico.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido e ao ID do médico.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndMedico(SituacaoConsultaMedica status, UUID medicoId);
 
-    List<ConsultaMedica> buscarConsultasPorStatus(SituacaoConsultaMedica status);
+    /**
+     * Busca consultas médicas com base no status e em uma data específica.
+     *
+     * @param status O status da consulta médica.
+     * @param data   A data específica das consultas.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido e à data especificada.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndData(SituacaoConsultaMedica status, Date data);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEPaciente(SituacaoConsultaMedica status, UUID pacienteId);
+    /**
+     * Busca consultas médicas com base no status e em um período de datas.
+     *
+     * @param status     O status da consulta médica.
+     * @param dataInicio A data de início do período.
+     * @param dataFim    A data de fim do período.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido e ao período de datas especificado.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPeriodo(SituacaoConsultaMedica status, Date dataInicio, Date dataFim);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEMedico(SituacaoConsultaMedica status, UUID medicoId);
+    /**
+     * Busca consultas médicas com base no status, no ID do paciente e em uma data específica.
+     *
+     * @param status     O status da consulta médica.
+     * @param pacienteId O ID do paciente.
+     * @param data       A data específica das consultas.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do paciente e à data especificada.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPacienteAndData(SituacaoConsultaMedica status, UUID pacienteId, Date data);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEData(SituacaoConsultaMedica status, Date data);
+    /**
+     * Busca consultas médicas com base no status, no ID do médico e em uma data específica.
+     *
+     * @param status   O status da consulta médica.
+     * @param medicoId O ID do médico.
+     * @param data     A data específica das consultas.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do médico e à data especificada.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndMedicoAndData(SituacaoConsultaMedica status, UUID medicoId, Date data);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEPeriodo(SituacaoConsultaMedica status, Date dataInicio, Date dataFim);
+    /**
+     * Busca consultas médicas com base no status, no ID do paciente e em um período de datas.
+     *
+     * @param status     O status da consulta médica.
+     * @param pacienteId O ID do paciente.
+     * @param dataInicio A data de início do período.
+     * @param dataFim    A data de fim do período.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do paciente e ao período de datas especificado.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPacienteAndPeriodo(SituacaoConsultaMedica status, UUID pacienteId, Date dataInicio, Date dataFim);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEPacienteEData(SituacaoConsultaMedica status, UUID pacienteId, Date data);
+    /**
+     * Busca consultas médicas com base no status, no ID do médico e em um período de datas.
+     *
+     * @param status     O status da consulta médica.
+     * @param medicoId   O ID do médico.
+     * @param dataInicio A data de início do período.
+     * @param dataFim    A data de fim do período.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do médico e ao período de datas especificado.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndMedicoAndPeriodo(SituacaoConsultaMedica status, UUID medicoId, Date dataInicio, Date dataFim);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEMedicoEData(SituacaoConsultaMedica status, UUID medicoId, Date data);
+    /**
+     * Busca consultas médicas com base no status, no ID do paciente e no ID do médico.
+     *
+     * @param status     O status da consulta médica.
+     * @param pacienteId O ID do paciente.
+     * @param medicoId   O ID do médico.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do paciente e ao ID do médico.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPacienteAndMedico(SituacaoConsultaMedica status, UUID pacienteId, UUID medicoId);
 
-    List<ConsultaMedica> buscarConsultasPorStatusEPacienteEPeriodo(SituacaoConsultaMedica status, UUID pacienteId, Date dataInicio, Date dataFim);
-
-    List<ConsultaMedica> buscarConsultasPorStatusEMedicoEPeriodo(SituacaoConsultaMedica status, UUID medicoId, Date dataInicio, Date dataFim);
-
-    List<ConsultaMedica> buscarConsultasPorStatusEPacienteEMedico(SituacaoConsultaMedica status, UUID pacienteId, UUID medicoId);
-
-    List<ConsultaMedica> buscarConsultasPorStatusEPacienteEMedicoEData(SituacaoConsultaMedica status, UUID pacienteId, UUID medicoId, Date data);
+    /**
+     * Busca consultas médicas com base no status, no ID do paciente, no ID do médico e em uma data específica.
+     *
+     * @param status     O status da consulta médica.
+     * @param pacienteId O ID do paciente.
+     * @param medicoId   O ID do médico.
+     * @param data       A data específica das consultas.
+     * @return Uma lista de consultas médicas que correspondem ao status fornecido, ao ID do paciente, ao ID do médico e à data especificada.
+     */
+    List<ConsultaMedica> findConsultasByStatusAndPacienteAndMedicoAndData(SituacaoConsultaMedica status, UUID pacienteId, UUID medicoId, Date data);
 }

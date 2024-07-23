@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Tag(name = "Paciente", description = "Endpoints destinado ao cadastro de pacientes")
 @RestController
-@RequestMapping("/v1/pacientes")
+@RequestMapping("/pacientes")
 public class PacienteController {
 
     private final IPacienteService pacienteService;
