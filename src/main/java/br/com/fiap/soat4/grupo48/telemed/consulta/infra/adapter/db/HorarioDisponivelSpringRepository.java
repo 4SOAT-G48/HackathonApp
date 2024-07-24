@@ -1,6 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.infra.adapter.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.UUID;
  * Este repositório facilita operações de banco de dados para a entidade HorarioDisponivel,
  * como buscar, salvar e deletar horários disponíveis no sistema.
  */
+@Repository
 public interface HorarioDisponivelSpringRepository extends JpaRepository<HorarioDisponivelEntity, UUID> {
 
     /**
