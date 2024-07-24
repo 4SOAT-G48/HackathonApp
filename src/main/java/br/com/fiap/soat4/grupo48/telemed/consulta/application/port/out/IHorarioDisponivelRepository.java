@@ -49,4 +49,23 @@ public interface IHorarioDisponivelRepository {
      * @return Uma lista contendo todos os horários disponíveis do médico na data especificada.
      */
     List<HorarioDisponivel> findByMedicoIdAndData(UUID medicoId, Date data);
+
+    /**
+     * Busca todos os horários disponíveis de um médico em uma data específica, exceto o horário com o ID especificado.
+     *
+     * @param medicoId O ID do médico.
+     * @param data     A data dos horários disponíveis.
+     * @param id       O ID do horário disponível a ser excluído da busca.
+     * @return Uma lista contendo todos os horários disponíveis do médico na data especificada, exceto o horário com o ID especificado.
+     */
+    List<HorarioDisponivel> findByMedicoIdAndDataAndIdNot(UUID medicoId, Date data, UUID id);
+
+    /**
+     * Busca todos os horários disponíveis de um médico em uma data posterior ou igual à data especificada.
+     *
+     * @param id   O ID do médico.
+     * @param date A data a partir da qual os horários disponíveis são buscados.
+     * @return Uma lista contendo todos os horários disponíveis do médico a partir da data especificada.
+     */
+    List<HorarioDisponivel> findByMedicoIdAndDataGreaterThanEqual(UUID id, Date date);
 }

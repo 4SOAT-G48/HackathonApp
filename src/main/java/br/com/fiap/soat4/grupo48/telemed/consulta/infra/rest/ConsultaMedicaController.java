@@ -1,12 +1,16 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.infra.rest;
 
-import br.com.fiap.soat4.grupo48.telemed.cadastro.infra.rest.ErrorResponse;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.service.ConsultaMedicaService;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.ConsultaMedica;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.SituacaoConsultaMedica;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +32,11 @@ public class ConsultaMedicaController {
         this.consultaMedicaService = consultaMedicaService;
     }
 
+    @Operation(summary = "Cria uma nova consulta médica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Consulta médica criada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping
     public ResponseEntity<?> criarConsultaMedica(@RequestBody ConsultaMedica consultaMedica) {
         try {
@@ -39,6 +48,11 @@ public class ConsultaMedicaController {
         }
     }
 
+    @Operation(summary = "Atualiza uma consulta médica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta médica atualizada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarConsultaMedica(@PathVariable UUID id, @RequestBody ConsultaMedicaDTO consultaMedica) {
 
@@ -51,6 +65,11 @@ public class ConsultaMedicaController {
         }
     }
 
+    @Operation(summary = "Aceita uma consulta médica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta médica aceita", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PutMapping("/{id}/aceitar")
     public ResponseEntity<?> aceitarConsulta(@PathVariable UUID id) {
         try {
@@ -62,6 +81,11 @@ public class ConsultaMedicaController {
         }
     }
 
+    @Operation(summary = "Recusa uma consulta médica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta médica recusada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PutMapping("/{id}/recusar")
     public ResponseEntity<?> recusarConsulta(@PathVariable UUID id) {
         try {
@@ -73,6 +97,11 @@ public class ConsultaMedicaController {
         }
     }
 
+    @Operation(summary = "Cancela uma consulta médica")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta médica cancelada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PutMapping("/{id}/cancelar")
     public ResponseEntity<?> cancelarConsulta(@PathVariable UUID id) {
         try {
@@ -84,46 +113,82 @@ public class ConsultaMedicaController {
         }
     }
 
+    @Operation(summary = "Busca uma consulta médica pelo ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consulta médica encontrada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "404", description = "Consulta médica não encontrada", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<ConsultaMedica> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
         try {
             ConsultaMedica consultaMedica = consultaMedicaService.buscarPorId(id);
             return new ResponseEntity<>(consultaMedica, HttpStatus.OK);
         } catch (ConsultaMedicaNotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         }
     }
 
+    @Operation(summary = "Lista todas as consultas médicas")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<ConsultaMedica>> listarTodas() {
         List<ConsultaMedica> consultas = consultaMedicaService.listarTodas();
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista todas as consultas médicas de um paciente")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping("/paciente/{pacienteId}")
     public ResponseEntity<List<ConsultaMedica>> listarPorPaciente(@PathVariable UUID pacienteId) {
         List<ConsultaMedica> consultas = consultaMedicaService.listarPorPaciente(pacienteId);
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista todas as consultas médicas de um médico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping("/medico/{medicoId}")
     public ResponseEntity<List<ConsultaMedica>> listarPorMedico(@PathVariable UUID medicoId) {
         List<ConsultaMedica> consultas = consultaMedicaService.listarPorMedico(medicoId);
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista todas as consultas médicas de uma data")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping("/data")
     public ResponseEntity<List<ConsultaMedica>> listarPorData(@RequestParam Date data) {
         List<ConsultaMedica> consultas = consultaMedicaService.listarPorData(data);
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista todas as consultas médicas de um período")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping("/periodo")
     public ResponseEntity<List<ConsultaMedica>> listarPorPeriodo(@RequestParam Date dataInicio, @RequestParam Date dataFim) {
         List<ConsultaMedica> consultas = consultaMedicaService.listarPorPeriodo(dataInicio, dataFim);
         return new ResponseEntity<>(consultas, HttpStatus.OK);
     }
 
+    @Operation(summary = "Lista todas as consultas médicas de um médico por status e período")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Consultas médicas encontradas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ConsultaMedica.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhuma consulta médica encontrada", content = @Content)
+    })
     @GetMapping("/medico/{medicoId}/status/{status}/periodo")
     public ResponseEntity<List<ConsultaMedica>> listarPorMedicoStatusPeriodo(
         @PathVariable UUID medicoId,

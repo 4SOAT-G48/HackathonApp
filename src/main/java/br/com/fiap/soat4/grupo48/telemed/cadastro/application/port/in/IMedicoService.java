@@ -90,4 +90,11 @@ public interface IMedicoService {
      * @return O objeto Medico com a especialidade desvinculada.
      */
     Medico desvincularEspecialidade(UUID idMedico, UUID idEspecialidade) throws MedicoNotFoundException, EspecialidadeNotLinkedException, EspecialidadeNotFoundException;
+
+    /**
+     * Busca todos os médicos cadastrados no sistema.
+     *
+     * @return Uma lista de objetos Medico com todos os médicos cadastrados.
+     */
+    List<Medico> buscarTodosMedicos();
 }

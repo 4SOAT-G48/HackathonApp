@@ -139,6 +139,21 @@ public class MedicoController {
         return ResponseEntity.ok(medicos);
     }
 
+
+    @Operation(summary = "Busca todos os médicos")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Médicos encontrados", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Medico[].class))}),
+        @ApiResponse(responseCode = "204", description = "Nenhum médico encontrado", content = {@Content})
+    })
+    @GetMapping
+    public ResponseEntity<List<Medico>> buscarTodosMedicos() {
+        List<Medico> medicos = medicoService.buscarTodosMedicos();
+        if (medicos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(medicos);
+    }
+
     @Operation(summary = "Vincula uma especialidade a um médico")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Especialidade vinculada ao médico", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Medico.class))}),

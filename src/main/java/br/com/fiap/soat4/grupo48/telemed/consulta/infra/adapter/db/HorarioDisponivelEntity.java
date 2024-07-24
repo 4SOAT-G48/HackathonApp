@@ -26,6 +26,7 @@ public class HorarioDisponivelEntity {
     @Column(name = "medico_id")
     private UUID medicoId;
 
+    @Column(name = "data", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date data;
 

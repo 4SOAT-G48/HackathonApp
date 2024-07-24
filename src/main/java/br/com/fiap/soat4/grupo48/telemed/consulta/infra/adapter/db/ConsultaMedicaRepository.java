@@ -83,7 +83,7 @@ public class ConsultaMedicaRepository implements IConsultaMedicaRepository {
 
     @Override
     public List<ConsultaMedica> findByMedicoAndStatusAndPeriodo(UUID medicoId, SituacaoConsultaMedica status, Date dataInicio, Date dataFim) {
-        List<ConsultaMedicaEntity> entities = consultaMedicaSpringRepository.findByMedicoIdAndStatusAndPeriodo(medicoId, status, dataInicio, dataFim);
+        List<ConsultaMedicaEntity> entities = consultaMedicaSpringRepository.findByMedicoIdAndStatusAndPeriodo(medicoId, status.toString(), dataInicio, dataFim);
         return entities.stream().map(this::convertToDomain).toList();
     }
 

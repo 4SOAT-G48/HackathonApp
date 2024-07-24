@@ -14,10 +14,13 @@ public interface IHorarioDisponivelService {
     /**
      * Cria um novo horário disponível no banco de dados.
      *
-     * @param horarioDisponivel O objeto HorarioDisponivel contendo as informações do novo horário.
+     * @param medicoId
+     * @param data
+     * @param horaInicio
+     * @param horaFim
      * @return O objeto HorarioDisponivel salvo com um ID gerado.
      */
-    HorarioDisponivel criarHorarioDisponivel(HorarioDisponivel horarioDisponivel) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException;
+    HorarioDisponivel criarHorarioDisponivel(UUID medicoId, Date data, Date horaInicio, Date horaFim) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException;
 
     /**
      * Busca um horário disponível pelo seu identificador único.
@@ -44,13 +47,15 @@ public interface IHorarioDisponivelService {
     List<HorarioDisponivel> buscarPorMedicoEData(UUID medicoId, Date data);
 
     /**
-     * Atualiza as informações de um horário disponível existente.
+     * Atualiza um horário disponível no sistema.
      *
-     * @param id                O UUID do horário disponível a ser atualizado.
-     * @param horarioDisponivel O objeto HorarioDisponivel contendo as novas informações.
+     * @param id         O UUID do horário disponível a ser atualizado.
+     * @param data       A nova data do horário disponível.
+     * @param horaInicio A nova hora de início do horário disponível.
+     * @param horaFim    A nova hora de fim do horário disponível.
      * @return O objeto HorarioDisponivel atualizado.
      */
-    HorarioDisponivel atualizarHorarioDisponivel(UUID id, HorarioDisponivel horarioDisponivel) throws HorarioDisponivelIllegalArgumentException;
+    HorarioDisponivel atualizarHorarioDisponivel(UUID id, Date data, Date horaInicio, Date horaFim) throws HorarioDisponivelIllegalArgumentException;
 
     /**
      * Remove um horário disponível do sistema pelo seu identificador único.
@@ -58,4 +63,12 @@ public interface IHorarioDisponivelService {
      * @param id O UUID do horário disponível a ser removido.
      */
     void deletarPorId(UUID id) throws HorarioDisponivelIllegalArgumentException;
+
+    /**
+     * Lista todos os horários disponíveis de um determinado médico.
+     *
+     * @param id O UUID do médico cujos horários disponíveis são buscados.
+     * @return Uma lista de objetos HorarioDisponivel que correspondem ao médico fornecido.
+     */
+    List<HorarioDisponivel> listarPorMedico(UUID id);
 }
