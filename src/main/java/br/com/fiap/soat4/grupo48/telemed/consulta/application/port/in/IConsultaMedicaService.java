@@ -21,6 +21,33 @@ public interface IConsultaMedicaService {
     ConsultaMedica criarConsultaMedica(ConsultaMedica consultaMedica) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException;
 
     /**
+     * Aceita uma consulta médica.
+     *
+     * @param id O identificador único da consulta médica.
+     * @return A consulta médica aceita.
+     * @throws ConsultaMedicaIllegalArgumentException Se a consulta médica não puder ser aceita.
+     */
+    ConsultaMedica aceitarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException;
+
+    /**
+     * Recusa uma consulta médica.
+     *
+     * @param id O identificador único da consulta médica.
+     * @return A consulta médica recusada.
+     * @throws ConsultaMedicaIllegalArgumentException Se a consulta médica não puder ser recusada.
+     */
+    ConsultaMedica recusarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException;
+
+    /**
+     * Cancela uma consulta médica.
+     *
+     * @param id O identificador único da consulta médica.
+     * @return A consulta médica cancelada.
+     * @throws ConsultaMedicaIllegalArgumentException Se a consulta médica não puder ser cancelada.
+     */
+    ConsultaMedica cancelarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException;
+
+    /**
      * Busca uma consulta médica pelo ID.
      *
      * @param id O identificador único da consulta médica.
@@ -38,18 +65,11 @@ public interface IConsultaMedicaService {
     /**
      * Atualiza uma consulta médica existente.
      *
-     * @param id             O identificador único da consulta médica.
-     * @param consultaMedica A consulta médica com os dados atualizados.
+     * @param id        O identificador único da consulta médica.
+     * @param horarioId
      * @return A consulta médica atualizada.
      */
-    ConsultaMedica atualizarConsultaMedica(UUID id, ConsultaMedica consultaMedica);
-
-    /**
-     * Deleta uma consulta médica pelo ID.
-     *
-     * @param id O identificador único da consulta médica.
-     */
-    void deletarPorId(UUID id);
+    ConsultaMedica atualizarConsultaMedica(UUID id, UUID horarioId) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException;
 
     /**
      * Lista todas as consultas médicas de um paciente específico.

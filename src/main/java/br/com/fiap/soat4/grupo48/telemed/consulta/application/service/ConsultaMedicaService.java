@@ -65,17 +65,39 @@ public class ConsultaMedicaService implements IConsultaMedicaService {
     }
 
     @Override
-    public ConsultaMedica atualizarConsultaMedica(UUID id, ConsultaMedica consultaMedica) {
-        if (consultaMedicaRepository.existsById(id)) {
-            consultaMedica.setId(id);
-            return consultaMedicaRepository.save(consultaMedica);
-        }
-        return null;
+    public ConsultaMedica atualizarConsultaMedica(UUID id, UUID horarioId) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException {
+        ConsultaMedica consultaMedicaAchada = consultaMedicaRepository.findById(id)
+            .orElseThrow(() -> new ConsultaMedicaIllegalArgumentException("Consulta médica não encontrada."));
+        HorarioDisponivel horarioDisponivel = horarioDisponivelRepository.findById(horarioId)
+            .orElseThrow(() -> new HorarioDisponivelNotFoundException("Horário não encontrado."));
+
+        consultaMedicaAchada.setHorario(horarioDisponivel);
+        return consultaMedicaRepository.save(consultaMedicaAchada);
+
     }
 
     @Override
-    public void deletarPorId(UUID id) {
-        consultaMedicaRepository.deleteById(id);
+    public ConsultaMedica aceitarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException {
+        ConsultaMedica consultaMedica = consultaMedicaRepository.findById(id)
+            .orElseThrow(() -> new ConsultaMedicaIllegalArgumentException("Consulta médica não encontrada."));
+        consultaMedica.setStatus(SituacaoConsultaMedica.ACEITA);
+        return consultaMedicaRepository.save(consultaMedica);
+    }
+
+    @Override
+    public ConsultaMedica recusarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException {
+        ConsultaMedica consultaMedica = consultaMedicaRepository.findById(id)
+            .orElseThrow(() -> new ConsultaMedicaIllegalArgumentException("Consulta médica não encontrada."));
+        consultaMedica.setStatus(SituacaoConsultaMedica.RECUSADA);
+        return consultaMedicaRepository.save(consultaMedica);
+    }
+
+    @Override
+    public ConsultaMedica cancelarConsulta(UUID id) throws ConsultaMedicaIllegalArgumentException {
+        ConsultaMedica consultaMedica = consultaMedicaRepository.findById(id)
+            .orElseThrow(() -> new ConsultaMedicaIllegalArgumentException("Consulta médica não encontrada."));
+        consultaMedica.setStatus(SituacaoConsultaMedica.CANCELADA);
+        return consultaMedicaRepository.save(consultaMedica);
     }
 
     @Override
