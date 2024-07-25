@@ -63,7 +63,7 @@ public class HorarioDisponivelService implements IHorarioDisponivelService {
         // verificar se o horário disponível a ser criado não conflita com horários já existentes
         for (HorarioDisponivel hd : horariosDisponiveis) {
             if (intervalUtils.intervalsOverlap(horarioDisponivel.getHoraInicio(), horarioDisponivel.getHoraFim(), hd.getHoraInicio(), hd.getHoraFim())) {
-                throw new HorarioDisponivelIllegalArgumentException("Horário disponível conflita com horário já existente.");
+                throw new HorarioDisponivelIllegalArgumentException("Horário conflita com horário disponível já existente.");
             }
         }
 
