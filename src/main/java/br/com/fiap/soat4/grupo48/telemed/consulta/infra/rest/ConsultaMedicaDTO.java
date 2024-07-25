@@ -5,17 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HorarioDisponivelDTO {
+public class ConsultaMedicaDTO {
     private UUID medicoId;
-    private Date data;
-    private LocalTime horaInicio;
-    private LocalTime horaFim;
+    private UUID pacienteId;
+    private UUID horarioDisponivelId;
+    private String justificativaCancelamento;
 }

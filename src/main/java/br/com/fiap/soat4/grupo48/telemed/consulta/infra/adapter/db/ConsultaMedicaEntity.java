@@ -1,5 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.infra.adapter.db;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.infra.adapter.db.MedicoEntity;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.infra.adapter.db.PacienteEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,37 +9,44 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "HORARIO_DISPONIVEL")
+@Table(name = "CONSULTA_MEDICA")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HorarioDisponivelEntity {
+public class ConsultaMedicaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "medico_id")
-    private UUID medicoId;
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "medico_id")
+    private MedicoEntity medico;
 
-    @Column(name = "data", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date data;
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "paciente_id")
+    private PacienteEntity paciente;
 
-    @Column(name = "hora_inicio")
-    @Temporal(TemporalType.TIME)
-    private LocalTime horaInicio;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "horario_id")
+    private HorarioDisponivelEntity horario;
 
-    @Column(name = "hora_fim")
-    @Temporal(TemporalType.TIME)
-    private LocalTime horaFim;
+    private String status;
+
+    @Column(name = "justificativa_cancelamento")
+    private String justificativaCancelamento;
 
     @Column(
         name = "data_criacao",
@@ -55,6 +64,10 @@ public class HorarioDisponivelEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
+    /**
+     * Método chamado antes da persistência da entidade para inserir as datas de criação e atualização.
+     * Se a data de criação for nula, ambas as datas são definidas para o momento atual.
+     */
     @PrePersist
     public void insereDatas() {
         if (Objects.isNull(this.dataCriacao)) {
@@ -63,8 +76,14 @@ public class HorarioDisponivelEntity {
         }
     }
 
+    /**
+     * Método chamado antes da atualização da entidade para atualizar a data de atualização.
+     * A data de atualização é definida para o momento atual.
+     */
     @PreUpdate
     public void atualizaDataAtualizacao() {
         this.dataAtualizacao = new Timestamp(Calendar.getInstance().getTimeInMillis());
     }
+
+
 }

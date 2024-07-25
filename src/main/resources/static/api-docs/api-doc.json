@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "Telemed",
+    "description": "API para cadastro de médicos, pacientes, administradores, especialidades, horários disponíveis e consultas",
+    "version": "v1.0"
   },
   "servers": [
     {
@@ -11,6 +12,10 @@
     }
   ],
   "tags": [
+    {
+      "name": "Consulta Médica",
+      "description": "Endpoints destinado ao cadastro de consultas médicas"
+    },
     {
       "name": "Especialidade",
       "description": "Endpoints destinado ao cadastro de especialidades"
@@ -33,7 +38,7 @@
     }
   ],
   "paths": {
-    "/v1/pacientes/{id}": {
+    "/pacientes/{id}": {
       "get": {
         "tags": [
           "Paciente"
@@ -105,6 +110,9 @@
               }
             }
           },
+          "404": {
+            "description": "Paciente não encontrado"
+          },
           "200": {
             "description": "Paciente atualizado com sucesso",
             "content": {
@@ -114,9 +122,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Paciente não encontrado"
           }
         }
       },
@@ -157,7 +162,7 @@
         }
       }
     },
-    "/v1/medicos/{id}": {
+    "/medicos/{id}": {
       "get": {
         "tags": [
           "Médico"
@@ -176,9 +181,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -188,6 +190,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       },
@@ -219,22 +224,22 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Médico inválido",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Médico Atualizado",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Medico"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Médico inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -269,9 +274,6 @@
               }
             }
           },
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico deletado",
             "content": {
@@ -281,11 +283,14 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
     },
-    "/v1/horarios-disponiveis/{id}": {
+    "/horarios-disponiveis/{id}": {
       "get": {
         "tags": [
           "HorarioDisponivel"
@@ -304,6 +309,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Horário disponível não encontrado"
+          },
           "200": {
             "description": "Horário disponível encontrado",
             "content": {
@@ -313,9 +321,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Horário disponível não encontrado"
           }
         }
       },
@@ -340,7 +345,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HorarioDisponivel"
+                "$ref": "#/components/schemas/HorarioDisponivelDTO"
               }
             }
           },
@@ -349,9 +354,6 @@
         "responses": {
           "404": {
             "description": "Horário disponível não encontrado"
-          },
-          "400": {
-            "description": "Dados inválidos para atualização"
           },
           "200": {
             "description": "Horário disponível atualizado",
@@ -362,6 +364,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Dados inválidos para atualização"
           }
         }
       },
@@ -392,7 +397,7 @@
         }
       }
     },
-    "/v1/especialidades/{id}": {
+    "/especialidades/{id}": {
       "get": {
         "tags": [
           "Especialidade"
@@ -464,9 +469,6 @@
               }
             }
           },
-          "400": {
-            "description": "Especialidade inválida"
-          },
           "200": {
             "description": "Especialidade atualizada",
             "content": {
@@ -476,6 +478,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Especialidade inválida"
           }
         }
       },
@@ -509,7 +514,225 @@
         }
       }
     },
-    "/v1/admin/{id}": {
+    "/consulta-medica/{id}": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Busca uma consulta médica pelo ID",
+        "operationId": "buscarPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta médica encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consulta médica não encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Atualiza uma consulta médica",
+        "operationId": "atualizarConsultaMedica",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaMedicaDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Consulta médica atualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/{id}/recusar": {
+      "put": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Recusa uma consulta médica",
+        "operationId": "recusarConsulta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Consulta médica recusada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/{id}/cancelar": {
+      "put": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Cancela uma consulta médica",
+        "operationId": "cancelarConsulta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta médica cancelada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/{id}/aceitar": {
+      "put": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Aceita uma consulta médica",
+        "operationId": "aceitarConsulta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Consulta médica aceita",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/{id}": {
       "get": {
         "tags": [
           "Admin"
@@ -634,7 +857,7 @@
         }
       }
     },
-    "/v1/pacientes": {
+    "/pacientes": {
       "get": {
         "tags": [
           "Paciente"
@@ -697,7 +920,29 @@
         }
       }
     },
-    "/v1/medicos": {
+    "/medicos": {
+      "get": {
+        "tags": [
+          "Médico"
+        ],
+        "summary": "Busca todos os médicos",
+        "operationId": "buscarTodosMedicos",
+        "responses": {
+          "200": {
+            "description": "Médicos encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Nenhum médico encontrado"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Médico"
@@ -738,7 +983,7 @@
         }
       }
     },
-    "/v1/medicos/{idMedico}/especialidades/{idEspecialidade}": {
+    "/medicos/{idMedico}/especialidades/{idEspecialidade}": {
       "post": {
         "tags": [
           "Médico"
@@ -811,6 +1056,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Médico ou especialidade não encontrada"
+          },
           "200": {
             "description": "Especialidade desvinculada do médico",
             "content": {
@@ -821,16 +1069,13 @@
               }
             }
           },
-          "404": {
-            "description": "Médico ou especialidade não encontrada"
-          },
           "400": {
             "description": "Requisição inválida"
           }
         }
       }
     },
-    "/v1/horarios-disponiveis": {
+    "/horarios-disponiveis": {
       "get": {
         "tags": [
           "HorarioDisponivel"
@@ -863,13 +1108,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HorarioDisponivel"
+                "$ref": "#/components/schemas/HorarioDisponivelDTO"
               }
             }
           },
           "required": true
         },
         "responses": {
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Horário disponível criado",
             "content": {
@@ -879,14 +1134,11 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "Dados inválidos"
           }
         }
       }
     },
-    "/v1/especialidades": {
+    "/especialidades": {
       "get": {
         "tags": [
           "Especialidade"
@@ -949,7 +1201,70 @@
         }
       }
     },
-    "/v1/admin": {
+    "/consulta-medica": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas",
+        "operationId": "listarTodas",
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Cria uma nova consulta médica",
+        "operationId": "criarConsultaMedica",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaMedica"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Consulta médica criada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin": {
       "get": {
         "tags": [
           "Admin"
@@ -957,6 +1272,9 @@
         "summary": "Recupera todos os admins",
         "operationId": "buscarTodosAdmins",
         "responses": {
+          "404": {
+            "description": "Admin não encontrado"
+          },
           "200": {
             "description": "Admin encontrado",
             "content": {
@@ -966,9 +1284,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Admin não encontrado"
           }
         }
       },
@@ -989,16 +1304,6 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Admin inválido",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "201": {
             "description": "Admin Criado",
             "content": {
@@ -1008,11 +1313,21 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Admin inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/v1/pacientes/email/{email}": {
+    "/pacientes/email/{email}": {
       "get": {
         "tags": [
           "Paciente"
@@ -1046,7 +1361,7 @@
         }
       }
     },
-    "/v1/pacientes/cpf/{cpf}": {
+    "/pacientes/cpf/{cpf}": {
       "get": {
         "tags": [
           "Paciente"
@@ -1080,7 +1395,7 @@
         }
       }
     },
-    "/v1/medicos/especialidade/{idEspecialidade}": {
+    "/medicos/especialidade/{idEspecialidade}": {
       "get": {
         "tags": [
           "Médico"
@@ -1099,9 +1414,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhum médico encontrado"
-          },
           "200": {
             "description": "Médicos encontrados",
             "content": {
@@ -1111,11 +1423,14 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhum médico encontrado"
           }
         }
       }
     },
-    "/v1/medicos/email/{email}": {
+    "/medicos/email/{email}": {
       "get": {
         "tags": [
           "Médico"
@@ -1133,9 +1448,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -1145,11 +1457,14 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
     },
-    "/v1/medicos/crm/{crm}": {
+    "/medicos/crm/{crm}": {
       "get": {
         "tags": [
           "Médico"
@@ -1167,9 +1482,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -1179,11 +1491,266 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
     },
-    "/v1/admin/email/{email}": {
+    "/horarios-disponiveis/medico/{id}": {
+      "get": {
+        "tags": [
+          "HorarioDisponivel"
+        ],
+        "summary": "Busca horários disponíveis por médico",
+        "operationId": "buscarHorariosDisponiveisPorMedico",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhum horário disponível encontrado"
+          },
+          "200": {
+            "description": "Horários disponíveis encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HorarioDisponivel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/periodo": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas de um período",
+        "operationId": "listarPorPeriodo",
+        "parameters": [
+          {
+            "name": "dataInicio",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "dataFim",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/paciente/{pacienteId}": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas de um paciente",
+        "operationId": "listarPorPaciente",
+        "parameters": [
+          {
+            "name": "pacienteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/medico/{medicoId}": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas de um médico",
+        "operationId": "listarPorMedico",
+        "parameters": [
+          {
+            "name": "medicoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/medico/{medicoId}/status/{status}/periodo": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas de um médico por status e período",
+        "operationId": "listarPorMedicoStatusPeriodo",
+        "parameters": [
+          {
+            "name": "medicoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AGENDADA",
+                "ACEITA",
+                "RECUSADA",
+                "CANCELADA",
+                "REALIZADA"
+              ]
+            }
+          },
+          {
+            "name": "dataInicio",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "dataFim",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/consulta-medica/data": {
+      "get": {
+        "tags": [
+          "Consulta Médica"
+        ],
+        "summary": "Lista todas as consultas médicas de uma data",
+        "operationId": "listarPorData",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
+          },
+          "200": {
+            "description": "Consultas médicas encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/email/{email}": {
       "get": {
         "tags": [
           "Admin"
@@ -1348,6 +1915,27 @@
           }
         }
       },
+      "HorarioDisponivelDTO": {
+        "type": "object",
+        "properties": {
+          "medicoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "data": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horaInicio": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "horaFim": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "HorarioDisponivel": {
         "type": "object",
         "properties": {
@@ -1389,6 +1977,65 @@
           },
           "descricao": {
             "type": "string"
+          }
+        }
+      },
+      "ConsultaMedicaDTO": {
+        "type": "object",
+        "properties": {
+          "medicoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pacienteId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "horarioDisponivelId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "justificativaCancelamento": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsultaMedica": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "medico": {
+            "$ref": "#/components/schemas/Medico"
+          },
+          "paciente": {
+            "$ref": "#/components/schemas/Paciente"
+          },
+          "horario": {
+            "$ref": "#/components/schemas/HorarioDisponivel"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AGENDADA",
+              "ACEITA",
+              "RECUSADA",
+              "CANCELADA",
+              "REALIZADA"
+            ]
+          },
+          "justificativaCancelamento": {
+            "type": "string"
+          },
+          "dataCriacao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dataAtualizacao": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

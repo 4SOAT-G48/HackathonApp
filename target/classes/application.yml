@@ -24,6 +24,8 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  jackson:
+    time-zone: America/Sao_Paulo
 
 aws:
   cognito:
@@ -42,6 +44,7 @@ logging:
     org.springframework: ${LOG_LEVEL}
   file:
     name: ${LOG_PATH}
+
 
 # Configuration for OpenAPI documentation
 springdoc:

@@ -22,4 +22,23 @@ public interface HorarioDisponivelSpringRepository extends JpaRepository<Horario
      * @return Uma lista de entidades HorarioDisponivel que correspondem aos critérios de busca.
      */
     List<HorarioDisponivelEntity> findByMedicoIdAndData(UUID medicoId, Date data);
+
+    /**
+     * Busca horários disponíveis de um médico específico em uma data posterior ou igual à data especificada.
+     *
+     * @param id   O identificador único do médico.
+     * @param date A data a partir da qual os horários disponíveis são buscados.
+     * @return Uma lista de entidades HorarioDisponivel que correspondem aos critérios de busca.
+     */
+    List<HorarioDisponivelEntity> findByMedicoIdAndDataGreaterThanEqual(UUID id, Date date);
+
+    /**
+     * Busca horários disponíveis de um médico específico em uma data específica, exceto o horário com o ID especificado.
+     *
+     * @param medicoId O identificador único do médico.
+     * @param data     A data específica para a qual os horários disponíveis são buscados.
+     * @param id       O identificador único do horário disponível a ser excluído da busca.
+     * @return Uma lista de entidades HorarioDisponivel que correspondem aos critérios de busca.
+     */
+    List<HorarioDisponivelEntity> findByMedicoIdAndDataAndIdNot(UUID medicoId, Date data, UUID id);
 }

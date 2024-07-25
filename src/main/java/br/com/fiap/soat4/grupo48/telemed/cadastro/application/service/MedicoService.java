@@ -97,4 +97,9 @@ public class MedicoService implements IMedicoService {
             throw new EspecialidadeNotLinkedException("Especialidade não está vinculada ao médico");
         }
     }
+
+    @Override
+    public List<Medico> buscarTodosMedicos() {
+        return medicoRepository.findAll();
+    }
 }

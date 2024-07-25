@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,15 +30,22 @@ public class HorarioDisponivelController {
     @Operation(summary = "Cria um novo horário disponível")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Horário disponível criado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HorarioDisponivel.class))),
-        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+        @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping
-    public ResponseEntity<HorarioDisponivel> criarHorarioDisponivel(@RequestBody HorarioDisponivel horarioDisponivel) {
+    public ResponseEntity<?> criarHorarioDisponivel(@RequestBody HorarioDisponivelDTO horarioDisponivel) {
         try {
-            HorarioDisponivel novoHorarioDisponivel = horarioDisponivelService.criarHorarioDisponivel(horarioDisponivel);
+            HorarioDisponivel novoHorarioDisponivel =
+                horarioDisponivelService.criarHorarioDisponivel(
+                    horarioDisponivel.getMedicoId(),
+                    horarioDisponivel.getData(),
+                    horarioDisponivel.getHoraInicio(),
+                    horarioDisponivel.getHoraFim()
+                );
             return ResponseEntity.status(HttpStatus.CREATED).body(novoHorarioDisponivel);
         } catch (ApplicationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
@@ -48,9 +56,9 @@ public class HorarioDisponivelController {
         @ApiResponse(responseCode = "400", description = "Dados inválidos para atualização", content = @Content)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<HorarioDisponivel> atualizarHorarioDisponivel(@PathVariable UUID id, @RequestBody HorarioDisponivel horarioDisponivel) {
+    public ResponseEntity<HorarioDisponivel> atualizarHorarioDisponivel(@PathVariable UUID id, @RequestBody HorarioDisponivelDTO horarioDisponivel) {
         try {
-            HorarioDisponivel horarioDisponivelAtualizado = horarioDisponivelService.atualizarHorarioDisponivel(id, horarioDisponivel);
+            HorarioDisponivel horarioDisponivelAtualizado = horarioDisponivelService.atualizarHorarioDisponivel(id, horarioDisponivel.getData(), horarioDisponivel.getHoraInicio(), horarioDisponivel.getHoraFim());
             return ResponseEntity.ok(horarioDisponivelAtualizado);
         } catch (ApplicationException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -99,5 +107,20 @@ public class HorarioDisponivelController {
         } catch (ApplicationException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    //Buscar horários disponíveis por médico
+    @Operation(summary = "Busca horários disponíveis por médico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Horários disponíveis encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HorarioDisponivel.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhum horário disponível encontrado", content = @Content)
+    })
+    @GetMapping("/medico/{id}")
+    public ResponseEntity<List<HorarioDisponivel>> buscarHorariosDisponiveisPorMedico(@PathVariable UUID id) {
+        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelService.listarPorMedico(id);
+        if (horariosDisponiveis.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(horariosDisponiveis);
     }
 }

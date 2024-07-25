@@ -51,6 +51,18 @@ public class HorarioDisponivelRepository implements IHorarioDisponivelRepository
         return entities.stream().map(this::convertToDomain).toList();
     }
 
+    @Override
+    public List<HorarioDisponivel> findByMedicoIdAndDataAndIdNot(UUID medicoId, Date data, UUID id) {
+        List<HorarioDisponivelEntity> entities = horarioDisponivelSpringRepository.findByMedicoIdAndDataAndIdNot(medicoId, data, id);
+        return entities.stream().map(this::convertToDomain).toList();
+    }
+
+    @Override
+    public List<HorarioDisponivel> findByMedicoIdAndDataGreaterThanEqual(UUID id, Date date) {
+        List<HorarioDisponivelEntity> entities = horarioDisponivelSpringRepository.findByMedicoIdAndDataGreaterThanEqual(id, date);
+        return entities.stream().map(this::convertToDomain).toList();
+    }
+
     private HorarioDisponivelEntity convertToEntity(HorarioDisponivel horarioDisponivel) {
         HorarioDisponivelEntity entity = new HorarioDisponivelEntity();
         entity.setId(horarioDisponivel.getId());
