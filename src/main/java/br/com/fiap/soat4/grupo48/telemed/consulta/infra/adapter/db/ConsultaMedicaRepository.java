@@ -6,6 +6,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.infra.adapter.db.MedicoEntity;
 import br.com.fiap.soat4.grupo48.telemed.cadastro.infra.adapter.db.PacienteEntity;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.out.IConsultaMedicaRepository;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.ConsultaMedica;
+import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.HorarioDisponivel;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.SituacaoConsultaMedica;
 import org.springframework.stereotype.Component;
 
@@ -92,9 +93,21 @@ public class ConsultaMedicaRepository implements IConsultaMedicaRepository {
         entity.setId(consultaMedica.getId());
         entity.setPaciente(convertToEntity(consultaMedica.getPaciente()));
         entity.setMedico(convertToEntity(consultaMedica.getMedico()));
+        entity.setHorario(convertToEntity(consultaMedica.getHorario()));
         entity.setStatus(consultaMedica.getStatus().toString());
         entity.setDataCriacao(consultaMedica.getDataCriacao());
         entity.setDataAtualizacao(consultaMedica.getDataAtualizacao());
+        return entity;
+    }
+
+    private HorarioDisponivelEntity convertToEntity(HorarioDisponivel horario) {
+        HorarioDisponivelEntity entity = new HorarioDisponivelEntity();
+        entity.setId(horario.getId());
+        entity.setData(horario.getData());
+        entity.setHoraInicio(horario.getHoraInicio());
+        entity.setHoraFim(horario.getHoraFim());
+        entity.setDataCriacao(horario.getDataCriacao());
+        entity.setDataAtualizacao(horario.getDataAtualizacao());
         return entity;
     }
 

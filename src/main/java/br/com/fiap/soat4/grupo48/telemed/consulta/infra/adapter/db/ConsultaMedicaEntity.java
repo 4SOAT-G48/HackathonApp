@@ -26,21 +26,19 @@ public class ConsultaMedicaEntity {
     private UUID id;
 
     @ManyToOne(
-        fetch = FetchType.EAGER,
-        cascade = CascadeType.ALL
+        optional = false
     )
-    @JoinColumn(name = "medico_id")
+    @JoinColumn(name = "medico_id", nullable = false, updatable = false)
     private MedicoEntity medico;
 
     @ManyToOne(
-        fetch = FetchType.EAGER,
-        cascade = CascadeType.ALL
+        optional = false
     )
-    @JoinColumn(name = "paciente_id")
+    @JoinColumn(name = "paciente_id", nullable = false, updatable = false)
     private PacienteEntity paciente;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "horario_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "horario_id", nullable = false, updatable = false)
     private HorarioDisponivelEntity horario;
 
     private String status;

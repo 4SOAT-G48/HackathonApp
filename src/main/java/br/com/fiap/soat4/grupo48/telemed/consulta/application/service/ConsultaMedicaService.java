@@ -55,7 +55,7 @@ public class ConsultaMedicaService implements IConsultaMedicaService {
         }
 
         // não pode criar consulta médica para datas passadas
-        if (horarioDisponivel.getData().before(new Date())) {
+        if ((new Date()).before(horarioDisponivel.getData())) {
             throw new ConsultaMedicaIllegalArgumentException("Data não pode ser no passado.");
         }
 

@@ -57,9 +57,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Paciente não encontrado"
-          },
           "200": {
             "description": "Paciente encontrado",
             "content": {
@@ -69,6 +66,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       },
@@ -110,9 +110,6 @@
               }
             }
           },
-          "404": {
-            "description": "Paciente não encontrado"
-          },
           "200": {
             "description": "Paciente atualizado com sucesso",
             "content": {
@@ -122,6 +119,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       },
@@ -143,6 +143,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Paciente excluído com sucesso"
+          },
           "404": {
             "description": "Paciente não encontrado"
           },
@@ -155,9 +158,6 @@
                 }
               }
             }
-          },
-          "200": {
-            "description": "Paciente excluído com sucesso"
           }
         }
       }
@@ -181,9 +181,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -193,6 +190,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       },
@@ -264,9 +264,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico deletado",
             "content": {
@@ -286,6 +283,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
@@ -309,6 +309,9 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Horário disponível não encontrado"
+          },
           "200": {
             "description": "Horário disponível encontrado",
             "content": {
@@ -318,9 +321,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Horário disponível não encontrado"
           }
         }
       },
@@ -352,11 +352,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Dados inválidos para atualização"
-          },
           "404": {
             "description": "Horário disponível não encontrado"
+          },
+          "400": {
+            "description": "Dados inválidos para atualização"
           },
           "200": {
             "description": "Horário disponível atualizado",
@@ -502,14 +502,14 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Especialidade não encontrada"
-          },
           "200": {
             "description": "Especialidade deletada",
             "content": {
               "application/json": {}
             }
+          },
+          "404": {
+            "description": "Especialidade não encontrada"
           }
         }
       }
@@ -533,22 +533,22 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Consulta médica não encontrada",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "200": {
             "description": "Consulta médica encontrada",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ConsultaMedica"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Consulta médica não encontrada",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -801,22 +801,22 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Admin Atualizado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Admin"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Admin inválido",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Admin Atualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Admin"
                 }
               }
             }
@@ -928,9 +928,6 @@
         "summary": "Busca todos os médicos",
         "operationId": "buscarTodosMedicos",
         "responses": {
-          "204": {
-            "description": "Nenhum médico encontrado"
-          },
           "200": {
             "description": "Médicos encontrados",
             "content": {
@@ -940,6 +937,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhum médico encontrado"
           }
         }
       },
@@ -960,22 +960,22 @@
           "required": true
         },
         "responses": {
-          "201": {
-            "description": "Médico Criado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Medico"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Médico inválido",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Médico Criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Medico"
                 }
               }
             }
@@ -1021,11 +1021,11 @@
               }
             }
           },
-          "400": {
-            "description": "Requisição inválida"
-          },
           "404": {
             "description": "Médico ou especialidade não encontrada"
+          },
+          "400": {
+            "description": "Requisição inválida"
           }
         }
       },
@@ -1056,9 +1056,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Requisição inválida"
-          },
           "404": {
             "description": "Médico ou especialidade não encontrada"
           },
@@ -1071,6 +1068,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Requisição inválida"
           }
         }
       }
@@ -1178,22 +1178,22 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Especialidade inválida",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
           "201": {
             "description": "Especialidade criada",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Especialidade"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Especialidade inválida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1209,9 +1209,6 @@
         "summary": "Lista todas as consultas médicas",
         "operationId": "listarTodas",
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1221,6 +1218,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       },
@@ -1234,7 +1234,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConsultaMedica"
+                "$ref": "#/components/schemas/ConsultaMedicaDTO"
               }
             }
           },
@@ -1272,9 +1272,6 @@
         "summary": "Recupera todos os admins",
         "operationId": "buscarTodosAdmins",
         "responses": {
-          "404": {
-            "description": "Admin não encontrado"
-          },
           "200": {
             "description": "Admin encontrado",
             "content": {
@@ -1284,6 +1281,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Admin não encontrado"
           }
         }
       },
@@ -1345,9 +1345,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Paciente não encontrado"
-          },
           "200": {
             "description": "Paciente encontrado",
             "content": {
@@ -1357,6 +1354,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       }
@@ -1379,9 +1379,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Paciente não encontrado"
-          },
           "200": {
             "description": "Paciente encontrado",
             "content": {
@@ -1391,6 +1388,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Paciente não encontrado"
           }
         }
       }
@@ -1414,9 +1414,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhum médico encontrado"
-          },
           "200": {
             "description": "Médicos encontrados",
             "content": {
@@ -1426,6 +1423,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhum médico encontrado"
           }
         }
       }
@@ -1448,9 +1448,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -1460,6 +1457,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
@@ -1482,9 +1482,6 @@
           }
         ],
         "responses": {
-          "404": {
-            "description": "Médico não encontrado"
-          },
           "200": {
             "description": "Médico encontrado",
             "content": {
@@ -1494,6 +1491,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Médico não encontrado"
           }
         }
       }
@@ -1561,9 +1561,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1573,6 +1570,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       }
@@ -1596,9 +1596,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1608,6 +1605,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       }
@@ -1631,9 +1631,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1643,6 +1640,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       }
@@ -1699,9 +1699,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1711,6 +1708,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       }
@@ -1734,9 +1734,6 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Nenhuma consulta médica encontrada"
-          },
           "200": {
             "description": "Consultas médicas encontradas",
             "content": {
@@ -1746,6 +1743,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "Nenhuma consulta médica encontrada"
           }
         }
       }
