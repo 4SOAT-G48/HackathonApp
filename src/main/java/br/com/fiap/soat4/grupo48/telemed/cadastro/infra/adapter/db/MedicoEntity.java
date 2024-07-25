@@ -6,17 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("MEDICO")
 @Table(name = "MEDICO")
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicoEntity extends PessoaEntity {
 
+    @Getter
     private String crm;
     @ManyToMany(
         fetch = FetchType.EAGER,
@@ -28,4 +30,11 @@ public class MedicoEntity extends PessoaEntity {
         inverseJoinColumns = @JoinColumn(name = "especialidade_id")
     )
     private List<EspecialidadeEntity> especialidades;
+
+    public List<EspecialidadeEntity> getEspecialidades() {
+        if (Objects.isNull(especialidades)) {
+            especialidades = new ArrayList<>();
+        }
+        return especialidades;
+    }
 }

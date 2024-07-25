@@ -6,14 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Medico extends Pessoa {
+    @Getter
     private String crm;
     private List<Especialidade> especialidades;
+
+    
+    public List<Especialidade> getEspecialidades() {
+        if (Objects.isNull(especialidades)) {
+            especialidades = new ArrayList<>();
+        }
+        return especialidades;
+    }
 
     /**
      * Adiciona uma especialidade ao médico
