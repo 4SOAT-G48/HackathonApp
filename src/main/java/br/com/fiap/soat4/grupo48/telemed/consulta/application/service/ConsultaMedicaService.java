@@ -1,5 +1,11 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.application.service;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IMedicoRepository;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.port.out.IPacienteRepository;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Paciente;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelNotFoundException;
@@ -9,38 +15,38 @@ import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.out.IHorarioD
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.ConsultaMedica;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.HorarioDisponivel;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.SituacaoConsultaMedica;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.*;
 
-@Service
 public class ConsultaMedicaService implements IConsultaMedicaService {
 
     private final IConsultaMedicaRepository consultaMedicaRepository;
     private final IHorarioDisponivelRepository horarioDisponivelRepository;
+    private final IMedicoRepository medicoRepository;
+    private final IPacienteRepository pacienteRepository;
 
-    public ConsultaMedicaService(IConsultaMedicaRepository consultaMedicaRepository, IHorarioDisponivelRepository horarioDisponivelRepository) {
+    public ConsultaMedicaService(IConsultaMedicaRepository consultaMedicaRepository, IHorarioDisponivelRepository horarioDisponivelRepository, IMedicoRepository medicoRepository, IPacienteRepository pacienteRepository) {
         this.consultaMedicaRepository = consultaMedicaRepository;
         this.horarioDisponivelRepository = horarioDisponivelRepository;
+        this.medicoRepository = medicoRepository;
+        this.pacienteRepository = pacienteRepository;
     }
 
     @Override
-    public ConsultaMedica criarConsultaMedica(ConsultaMedica consultaMedica) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException {
-        if (Objects.isNull(consultaMedica)) {
-            throw new ConsultaMedicaIllegalArgumentException("Consulta médica não pode ser nula.");
-        }
-        if (Objects.isNull(consultaMedica.getMedico())) {
+    public ConsultaMedica criarConsultaMedica(UUID medicoId, UUID pacienteId, UUID horarioId) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException, MedicoNotFoundException, PacienteNotFoundException {
+
+        if (Objects.isNull(medicoId)) {
             throw new ConsultaMedicaIllegalArgumentException("Médico é obrigatório.");
         }
-        if (Objects.isNull(consultaMedica.getPaciente())) {
+        if (Objects.isNull(pacienteId)) {
             throw new ConsultaMedicaIllegalArgumentException("Paciente é obrigatório.");
         }
-        if (Objects.isNull(consultaMedica.getHorario())) {
+        if (Objects.isNull(horarioId)) {
             throw new ConsultaMedicaIllegalArgumentException("Horário é obrigatório.");
         }
         // verificar se o horário disponível existe
-        HorarioDisponivel horarioDisponivel = horarioDisponivelRepository.findById(consultaMedica.getHorario().getId())
+        HorarioDisponivel horarioDisponivel = horarioDisponivelRepository.findById(horarioId)
             .orElseThrow(() -> new HorarioDisponivelNotFoundException("Horário não encontrado."));
 
         // verificar se o horário disponível está disponível
@@ -58,7 +64,15 @@ public class ConsultaMedicaService implements IConsultaMedicaService {
             throw new ConsultaMedicaIllegalArgumentException("Hora de início não pode ser no passado.");
         }
 
+        Medico medico = medicoRepository.findById(medicoId)
+            .orElseThrow(() -> new MedicoNotFoundException("Médico não encontrado."));
 
+        Paciente paciente = pacienteRepository.findById(pacienteId)
+            .orElseThrow(() -> new PacienteNotFoundException("Paciente não encontrado."));
+
+        ConsultaMedica consultaMedica = new ConsultaMedica();
+        consultaMedica.setMedico(medico);
+        consultaMedica.setPaciente(paciente);
         consultaMedica.setHorario(horarioDisponivel);
         consultaMedica.setStatus(SituacaoConsultaMedica.AGENDADA);
 

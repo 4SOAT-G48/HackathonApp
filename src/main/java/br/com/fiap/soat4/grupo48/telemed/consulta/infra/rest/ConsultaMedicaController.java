@@ -1,9 +1,11 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.infra.rest;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelNotFoundException;
-import br.com.fiap.soat4.grupo48.telemed.consulta.application.service.ConsultaMedicaService;
+import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.in.IConsultaMedicaService;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.ConsultaMedica;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.SituacaoConsultaMedica;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,9 +28,9 @@ import java.util.UUID;
 @RequestMapping("/consulta-medica")
 public class ConsultaMedicaController {
 
-    private final ConsultaMedicaService consultaMedicaService;
+    private final IConsultaMedicaService consultaMedicaService;
 
-    public ConsultaMedicaController(ConsultaMedicaService consultaMedicaService) {
+    public ConsultaMedicaController(IConsultaMedicaService consultaMedicaService) {
         this.consultaMedicaService = consultaMedicaService;
     }
 
@@ -38,11 +40,12 @@ public class ConsultaMedicaController {
         @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping
-    public ResponseEntity<?> criarConsultaMedica(@RequestBody ConsultaMedica consultaMedica) {
+    public ResponseEntity<?> criarConsultaMedica(@RequestBody ConsultaMedicaDTO consultaMedica) {
         try {
-            ConsultaMedica novaConsulta = consultaMedicaService.criarConsultaMedica(consultaMedica);
+            ConsultaMedica novaConsulta = consultaMedicaService.criarConsultaMedica(consultaMedica.getMedicoId(), consultaMedica.getPacienteId(), consultaMedica.getHorarioDisponivelId());
             return new ResponseEntity<>(novaConsulta, HttpStatus.CREATED);
-        } catch (ConsultaMedicaIllegalArgumentException | HorarioDisponivelNotFoundException e) {
+        } catch (ConsultaMedicaIllegalArgumentException | HorarioDisponivelNotFoundException | MedicoNotFoundException |
+                 PacienteNotFoundException e) {
             ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }

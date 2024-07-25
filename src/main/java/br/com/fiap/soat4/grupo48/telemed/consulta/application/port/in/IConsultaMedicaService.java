@@ -1,5 +1,7 @@
 package br.com.fiap.soat4.grupo48.telemed.consulta.application.port.in;
 
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNotFoundException;
+import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.PacienteNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.ConsultaMedicaNotFoundException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelNotFoundException;
@@ -15,10 +17,12 @@ public interface IConsultaMedicaService {
     /**
      * Cria uma nova consulta médica.
      *
-     * @param consultaMedica A consulta médica a ser criada.
+     * @param medicoId
+     * @param pacienteId
+     * @param horarioId
      * @return A consulta médica criada.
      */
-    ConsultaMedica criarConsultaMedica(ConsultaMedica consultaMedica) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException;
+    ConsultaMedica criarConsultaMedica(UUID medicoId, UUID pacienteId, UUID horarioId) throws ConsultaMedicaIllegalArgumentException, HorarioDisponivelNotFoundException, MedicoNotFoundException, PacienteNotFoundException;
 
     /**
      * Aceita uma consulta médica.
