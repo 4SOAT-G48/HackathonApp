@@ -116,6 +116,7 @@ public class ConsultaMedicaRepository implements IConsultaMedicaRepository {
         consultaMedica.setId(entity.getId());
         consultaMedica.setPaciente(convertToDomain(entity.getPaciente()));
         consultaMedica.setMedico(convertToDomain(entity.getMedico()));
+        consultaMedica.setHorario(convertToDomain(entity.getHorario()));
         consultaMedica.setStatus(SituacaoConsultaMedica.valueOf(entity.getStatus()));
         consultaMedica.setDataCriacao(entity.getDataCriacao());
         consultaMedica.setDataAtualizacao(entity.getDataAtualizacao());
@@ -162,5 +163,16 @@ public class ConsultaMedicaRepository implements IConsultaMedicaRepository {
         medico.setDataCriacao(entity.getDataCriacao());
         medico.setDataAtualizacao(entity.getDataAtualizacao());
         return medico;
+    }
+
+    private HorarioDisponivel convertToDomain(HorarioDisponivelEntity entity) {
+        HorarioDisponivel horario = new HorarioDisponivel();
+        horario.setId(entity.getId());
+        horario.setData(entity.getData());
+        horario.setHoraInicio(entity.getHoraInicio());
+        horario.setHoraFim(entity.getHoraFim());
+        horario.setDataCriacao(entity.getDataCriacao());
+        horario.setDataAtualizacao(entity.getDataAtualizacao());
+        return horario;
     }
 }
