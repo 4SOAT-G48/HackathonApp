@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -32,11 +33,11 @@ public class HorarioDisponivelEntity {
 
     @Column(name = "hora_inicio")
     @Temporal(TemporalType.TIME)
-    private Date horaInicio;
+    private LocalTime horaInicio;
 
     @Column(name = "hora_fim")
     @Temporal(TemporalType.TIME)
-    private Date horaFim;
+    private LocalTime horaFim;
 
     @Column(
         name = "data_criacao",

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,6 +16,6 @@ import java.util.UUID;
 public class HorarioDisponivelDTO {
     private UUID medicoId;
     private Date data;
-    private Date horaInicio;
-    private Date horaFim;
+    private LocalTime horaInicio;
+    private LocalTime horaFim;
 }

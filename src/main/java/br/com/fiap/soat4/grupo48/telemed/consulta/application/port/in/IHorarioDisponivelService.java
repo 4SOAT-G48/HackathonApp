@@ -5,6 +5,7 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.application.exception.MedicoNo
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.HorarioDisponivel;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public interface IHorarioDisponivelService {
      * @param horaFim
      * @return O objeto HorarioDisponivel salvo com um ID gerado.
      */
-    HorarioDisponivel criarHorarioDisponivel(UUID medicoId, Date data, Date horaInicio, Date horaFim) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException;
+    HorarioDisponivel criarHorarioDisponivel(UUID medicoId, Date data, LocalTime horaInicio, LocalTime horaFim) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException;
 
     /**
      * Busca um horário disponível pelo seu identificador único.
@@ -55,7 +56,7 @@ public interface IHorarioDisponivelService {
      * @param horaFim    A nova hora de fim do horário disponível.
      * @return O objeto HorarioDisponivel atualizado.
      */
-    HorarioDisponivel atualizarHorarioDisponivel(UUID id, Date data, Date horaInicio, Date horaFim) throws HorarioDisponivelIllegalArgumentException;
+    HorarioDisponivel atualizarHorarioDisponivel(UUID id, Date data, LocalTime horaInicio, LocalTime horaFim) throws HorarioDisponivelIllegalArgumentException;
 
     /**
      * Remove um horário disponível do sistema pelo seu identificador único.

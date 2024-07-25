@@ -7,22 +7,26 @@ import br.com.fiap.soat4.grupo48.telemed.cadastro.domain.model.Medico;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.exception.HorarioDisponivelIllegalArgumentException;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.in.IHorarioDisponivelService;
 import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.out.IHorarioDisponivelRepository;
+import br.com.fiap.soat4.grupo48.telemed.consulta.application.port.out.IIntervalUtils;
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.HorarioDisponivel;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class HorarioDisponivelService implements IHorarioDisponivelService {
 
     private final IHorarioDisponivelRepository horarioDisponivelRepository;
     private final IMedicoRepository medicoRepository;
+    private final IIntervalUtils intervalUtils;
 
-    public HorarioDisponivelService(IHorarioDisponivelRepository horarioDisponivelRepository, IMedicoRepository medicoRepository) {
+    public HorarioDisponivelService(IHorarioDisponivelRepository horarioDisponivelRepository, IMedicoRepository medicoRepository, IIntervalUtils intervalUtils) {
         this.horarioDisponivelRepository = horarioDisponivelRepository;
         this.medicoRepository = medicoRepository;
+        this.intervalUtils = intervalUtils;
     }
 
     @Override
-    public HorarioDisponivel criarHorarioDisponivel(UUID medicoId, Date data, Date horaInicio, Date horaFim) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException {
+    public HorarioDisponivel criarHorarioDisponivel(UUID medicoId, Date data, LocalTime horaInicio, LocalTime horaFim) throws MedicoIllegalArgumentException, MedicoNotFoundException, HorarioDisponivelIllegalArgumentException {
 
         if (Objects.isNull(medicoId)) {
             throw new MedicoIllegalArgumentException("Médico é obrigatório.");
@@ -40,27 +44,29 @@ public class HorarioDisponivelService implements IHorarioDisponivelService {
         if (Objects.isNull(horaFim)) {
             throw new HorarioDisponivelIllegalArgumentException("Hora de fim é obrigatória.");
         }
-        if (horaInicio.after(horaFim)) {
+        if (horaInicio.isAfter(horaFim)) {
             throw new HorarioDisponivelIllegalArgumentException("Hora de início deve ser menor que a hora de fim.");
         }
         // não pode criar horário disponível para datas passadas
         if (data.before(new Date())) {
             throw new HorarioDisponivelIllegalArgumentException("Data não pode ser no passado.");
         }
-        // buscar horários disponíveis do médico na data
-        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelRepository.findByMedicoIdAndData(medicoId, data);
-        // verificar se o horário disponível a ser criado não conflita com horários já existentes
-        for (HorarioDisponivel hd : horariosDisponiveis) {
-            if ((horaInicio.before(hd.getHoraFim()) && horaInicio.after(hd.getHoraInicio()))
-                || (horaFim.before(hd.getHoraFim()) && horaFim.after(hd.getHoraInicio()))) {
-                throw new HorarioDisponivelIllegalArgumentException("Horário disponível conflita com horário já existente.");
-            }
-        }
+
         HorarioDisponivel horarioDisponivel = new HorarioDisponivel();
         horarioDisponivel.setMedicoId(medicoId);
         horarioDisponivel.setData(data);
         horarioDisponivel.setHoraInicio(horaInicio);
         horarioDisponivel.setHoraFim(horaFim);
+
+        // buscar horários disponíveis do médico na data
+        List<HorarioDisponivel> horariosDisponiveis = horarioDisponivelRepository.findByMedicoIdAndData(medicoId, data);
+        // verificar se o horário disponível a ser criado não conflita com horários já existentes
+        for (HorarioDisponivel hd : horariosDisponiveis) {
+            if (intervalUtils.intervalsOverlap(horarioDisponivel.getHoraInicio(), horarioDisponivel.getHoraFim(), hd.getHoraInicio(), hd.getHoraFim())) {
+                throw new HorarioDisponivelIllegalArgumentException("Horário disponível conflita com horário já existente.");
+            }
+        }
+
         return horarioDisponivelRepository.save(horarioDisponivel);
     }
 
@@ -81,7 +87,7 @@ public class HorarioDisponivelService implements IHorarioDisponivelService {
     }
 
     @Override
-    public HorarioDisponivel atualizarHorarioDisponivel(UUID id, Date data, Date horaInicio, Date horaFim) throws HorarioDisponivelIllegalArgumentException {
+    public HorarioDisponivel atualizarHorarioDisponivel(UUID id, Date data, LocalTime horaInicio, LocalTime horaFim) throws HorarioDisponivelIllegalArgumentException {
 
         HorarioDisponivel horarioDisponivel = horarioDisponivelRepository.findById(id)
             .orElseThrow(() -> new HorarioDisponivelIllegalArgumentException("Horário disponível não encontrado."));
@@ -95,7 +101,7 @@ public class HorarioDisponivelService implements IHorarioDisponivelService {
         if (Objects.isNull(horaFim)) {
             throw new HorarioDisponivelIllegalArgumentException("Hora de fim é obrigatória.");
         }
-        if (horaInicio.after(horaFim)) {
+        if (horaInicio.isAfter(horaFim)) {
             throw new HorarioDisponivelIllegalArgumentException("Hora de início deve ser menor que a hora de fim.");
         }
         // não pode criar horário disponível para datas passadas
@@ -107,7 +113,7 @@ public class HorarioDisponivelService implements IHorarioDisponivelService {
             horarioDisponivelRepository.findByMedicoIdAndDataAndIdNot(horarioDisponivel.getMedicoId(), data, id);
         // verificar se o horário disponível a ser criado não conflita com horários já existentes
         for (HorarioDisponivel hd : horariosDisponiveis) {
-            if (horaInicio.before(hd.getHoraFim()) && horaFim.after(hd.getHoraInicio())) {
+            if (intervalUtils.intervalsOverlap(horarioDisponivel.getHoraInicio(), horarioDisponivel.getHoraFim(), hd.getHoraInicio(), hd.getHoraFim())) {
                 throw new HorarioDisponivelIllegalArgumentException("Horário disponível conflita com horário já existente.");
             }
         }

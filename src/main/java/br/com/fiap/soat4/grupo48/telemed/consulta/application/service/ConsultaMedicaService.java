@@ -11,6 +11,7 @@ import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.HorarioDisponivel
 import br.com.fiap.soat4.grupo48.telemed.consulta.domain.model.SituacaoConsultaMedica;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -53,7 +54,7 @@ public class ConsultaMedicaService implements IConsultaMedicaService {
         }
 
         // não pode criar consulta médica para horas passadas
-        if (horarioDisponivel.getHoraInicio().before(new Date())) {
+        if (horarioDisponivel.getHoraInicio().isBefore(LocalTime.now())) {
             throw new ConsultaMedicaIllegalArgumentException("Hora de início não pode ser no passado.");
         }
 
