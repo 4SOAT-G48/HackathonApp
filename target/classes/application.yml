@@ -26,6 +26,17 @@ spring:
       enabled: ALWAYS
   jackson:
     time-zone: America/Sao_Paulo
+
+aws:
+  cognito:
+    userPoolId: ${AWS_USER_POOL_ID}
+    clientId: ${AWS_CLIENT_ID}
+    clientSecret: ${AWS_CLIENT_SECRET}
+  credentials:
+    accessKey: ${AWS_ACCESS_KEY}
+    secretKey: ${AWS_SECRET_KEY}
+    region: ${AWS_REGION}
+
 logging:
   level:
     org.hibernate: ${LOG_LEVEL}
