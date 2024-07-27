@@ -1,0 +1,2055 @@
+{
+	"info": {
+		"_postman_id": "62584ae7-db2b-4d69-a5e9-eded5671e215",
+		"name": "1.Requisitos: Telemed-4SOAT-Grupo48-Hackathon",
+		"description": "Esta coleção é focada na sequencia de ações necessárias para atender os requisitos propostos.\n\nPara ver a coleção completa baseda na definição OpenAPI veja **2.OpenAPI: Telemed-4SOAT-Grupo48-Hackathon.**",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9454544",
+		"_collection_link": "https://techchallenge-fiap-turma4soat-g48.postman.co/workspace/Team-Workspace~fbe35dc4-bd06-4fee-89f7-8318f5b6131c/collection/9454544-62584ae7-db2b-4d69-a5e9-eded5671e215?action=share&source=collection_link&creator=9454544"
+	},
+	"item": [
+		{
+			"name": "0.Cadastros Base",
+			"item": [
+				{
+					"name": "Cria um admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Admin Criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Recupera todos os admins",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Admin encontrado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						},
+						{
+							"name": "Admin não encontrado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Cria um médico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Charlie Silver\",\n  \"email\": \"charlie.silver@testdev.com.br\",\n  \"crm\": \"CRM/BB 234567\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/medicos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Médico Criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"crm\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/medicos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\",\n  \"crm\": \"<string>\",\n  \"especialidades\": [\n    {\n      \"id\": \"<uuid>\",\n      \"codigo\": \"<string>\",\n      \"descricao\": \"<string>\",\n      \"dataCriacao\": \"<dateTime>\",\n      \"dataAtualizacao\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"codigo\": \"<string>\",\n      \"descricao\": \"<string>\",\n      \"dataCriacao\": \"<dateTime>\",\n      \"dataAtualizacao\": \"<dateTime>\"\n    }\n  ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Busca todos os médicos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Médicos encontrados",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/medicos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "<string>"
+						},
+						{
+							"name": "Nenhum médico encontrado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/medicos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Busca todas as especialidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/especialidades",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"especialidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vincula uma especialidade a um médico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos/:idMedico/especialidades/:idEspecialidade",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos",
+								":idMedico",
+								"especialidades",
+								":idEspecialidade"
+							],
+							"variable": [
+								{
+									"key": "idMedico",
+									"value": "<uuid>",
+									"description": "(Required) "
+								},
+								{
+									"key": "idEspecialidade",
+									"value": "<uuid>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Vincula uma especialidade a um médico",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/medicos/:idMedico/especialidades/:idEspecialidade",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos",
+										":idMedico",
+										"especialidades",
+										":idEspecialidade"
+									],
+									"variable": [
+										{
+											"key": "idMedico",
+											"value": "53f0e4a9-5de6-4eb0-91f4-fef0c89eba20",
+											"description": "(Required) "
+										},
+										{
+											"key": "idEspecialidade",
+											"value": "fdd8ba9d-ecd7-4b99-b28b-56b7892bb826",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Vincula uma especialidade a um médico Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/medicos/:idMedico/especialidades/:idEspecialidade",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos",
+										":idMedico",
+										"especialidades",
+										":idEspecialidade"
+									],
+									"variable": [
+										{
+											"key": "idMedico",
+											"value": "53f0e4a9-5de6-4eb0-91f4-fef0c89eba20",
+											"description": "(Required) "
+										},
+										{
+											"key": "idEspecialidade",
+											"value": "6b1d089e-32f5-44bb-a952-8fabe9fee10e",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Desvincula uma especialidade de um médico",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos/:idMedico/especialidades/:idEspecialidade",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos",
+								":idMedico",
+								"especialidades",
+								":idEspecialidade"
+							],
+							"variable": [
+								{
+									"key": "idMedico",
+									"value": "<uuid>",
+									"description": "(Required) "
+								},
+								{
+									"key": "idEspecialidade",
+									"value": "<uuid>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Especialidade desvinculada do médico",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/medicos/:idMedico/especialidades/:idEspecialidade",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"medicos",
+										":idMedico",
+										"especialidades",
+										":idEspecialidade"
+									],
+									"variable": [
+										{
+											"key": "idMedico",
+											"value": "53f0e4a9-5de6-4eb0-91f4-fef0c89eba20"
+										},
+										{
+											"key": "idEspecialidade",
+											"value": "6b1d089e-32f5-44bb-a952-8fabe9fee10e"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\",\n  \"crm\": \"<string>\",\n  \"especialidades\": [\n    {\n      \"id\": \"<uuid>\",\n      \"codigo\": \"<string>\",\n      \"descricao\": \"<string>\",\n      \"dataCriacao\": \"<dateTime>\",\n      \"dataAtualizacao\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"codigo\": \"<string>\",\n      \"descricao\": \"<string>\",\n      \"dataCriacao\": \"<dateTime>\",\n      \"dataAtualizacao\": \"<dateTime>\"\n    }\n  ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "1.Autenticação do Usuário (Admin/Medico/Pacience)",
+			"item": [
+				{
+					"name": "Cria um usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Usuário Criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login/admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"admin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Admin logado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"token\": \"<string>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login Médico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"crm\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login/medico",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								"medico"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Médico logado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"token\": \"<string>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cpf\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\":\"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Usuário logado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"token\": \"<string>\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "2.Cadastro/Edição de Horários Disponíveis (Médico)",
+			"item": [
+				{
+					"name": "Busca um médico pelo ID (set medicoId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Recupera a resposta JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Verifica se o campo 'id' existe na resposta",
+									"if (jsonData.id) {",
+									"    // Define a variável de coleção 'medicoId' com o valor do campo 'id' da resposta",
+									"    pm.collectionVariables.set(\"medicoId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "53f0e4a9-5de6-4eb0-91f4-fef0c89eba20",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cria um novo horário disponível",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"medicoId\": \"{{medicoId}}\",\n  \"data\": \"2024-07-25\",\n  \"horaInicio\": \"2024-07-25T12:00:00\",\n  \"horaFim\": \"2024-07-25T13:00:00\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horário disponível criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						},
+						{
+							"name": "Cria um novo horário disponível teste 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"medicoId\": \"{{medicoId}}\",\n  \"data\": \"2024-07-25\",\n  \"horaInicio\": \"2024-07-25T07:01:00\",\n  \"horaFim\": \"2024-07-25T08:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Cria um novo horário disponível teste 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"medicoId\": \"{{medicoId}}\",\n  \"data\": \"2024-07-25\",\n  \"horaInicio\": \"2024-07-25T07:30:00\",\n  \"horaFim\": \"2024-07-25T09:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Cria um novo horário disponível teste 3",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"medicoId\": \"{{medicoId}}\",\n  \"data\": \"2024-07-25\",\n  \"horaInicio\": \"2024-07-25T07:59:00\",\n  \"horaFim\": \"2024-07-25T09:00:00\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Busca horários disponíveis por médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/medico/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								"medico",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{medicoId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horários disponíveis encontrados",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis/medico/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis",
+										"medico",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Busca todos os horários disponíveis",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horários disponíveis encontrados",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Busca um horário disponível pelo ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "e4976017-3b4b-4336-a8a2-b88862fea2d9",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horário disponível encontrado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Atualiza um horário disponível",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": \"2024-07-25T00:00:00.000-03:00\",\n    \"horaInicio\": \"11:00:00\",\n    \"horaFim\": \"12:00:00\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "62c42052-c23b-49e9-a295-dba34fda8294",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horário disponível atualizado",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<uuid>\",\n  \"medicoId\": \"<uuid>\",\n  \"data\": \"<dateTime>\",\n  \"horaInicio\": \"<dateTime>\",\n  \"horaFim\": \"<dateTime>\",\n  \"dataCriacao\": \"<dateTime>\",\n  \"dataAtualizacao\": \"<dateTime>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deleta um horário disponível pelo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "89eeadd3-9a22-4920-8a30-818f93424b7b",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Horário disponível deletado",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"horarios-disponiveis",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "3.Aceite ou Recusa de Consultas Médicas (Médico)",
+			"item": [
+				{
+					"name": "Lista todas as consultas médicas de um médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/medico/:medicoId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								"medico",
+								":medicoId"
+							],
+							"variable": [
+								{
+									"key": "medicoId",
+									"value": "{{medicoId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aceita uma consulta médica Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/:id/aceitar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								":id",
+								"aceitar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<uuid>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recusa uma consulta médica Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/:id/recusar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								":id",
+								"recusar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "<uuid>",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4.Autenticação do Usuário (Paciente)",
+			"item": []
+		},
+		{
+			"name": "5.Busca por Médicos (Paciente)",
+			"item": []
+		},
+		{
+			"name": "6.Agendamento de Consultas (Paciente)",
+			"item": [
+				{
+					"name": "Busca todas as especialidades",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/especialidades",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"especialidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca médicos por especialidade",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos/especialidade/:idEspecialidade",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos",
+								"especialidade",
+								":idEspecialidade"
+							],
+							"variable": [
+								{
+									"key": "idEspecialidade",
+									"value": "fdd8ba9d-ecd7-4b99-b28b-56b7892bb826",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca um médico pelo ID (set medicoId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Recupera a resposta JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Verifica se o campo 'id' existe na resposta",
+									"if (jsonData.id) {",
+									"    // Define a variável de coleção 'medicoId' com o valor do campo 'id' da resposta",
+									"    pm.collectionVariables.set(\"medicoId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/medicos/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"medicos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "53f0e4a9-5de6-4eb0-91f4-fef0c89eba20",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca todos os pacientes cadastrados",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pacientes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pacientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca um paciente pelo (set pacienteId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Recupera a resposta JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Verifica se o campo 'id' existe na resposta",
+									"if (jsonData.id) {",
+									"    // Define a variável de coleção 'pacienteId' com o valor do campo 'id' da resposta",
+									"    pm.collectionVariables.set(\"pacienteId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pacientes/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pacientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9a697125-f4d1-4883-89e6-59ca4a0e2d54",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca horários disponíveis por médico",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/medico/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								"medico",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{medicoId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca um horário disponível pelo (set horarioId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Recupera a resposta JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Verifica se o campo 'id' existe na resposta",
+									"if (jsonData.id) {",
+									"    // Define a variável de coleção 'horarioId' com o valor do campo 'id' da resposta",
+									"    pm.collectionVariables.set(\"horarioId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/horarios-disponiveis/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"horarios-disponiveis",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "62c42052-c23b-49e9-a295-dba34fda8294",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cria uma nova consulta médica",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"medicoId\": \"{{medicoId}}\",\n  \"pacienteId\": \"{{pacienteId}}\",\n  \"horarioDisponivelId\": \"{{horarioId}}\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista todas as consultas médicas de um paciente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/paciente/:pacienteId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								"paciente",
+								":pacienteId"
+							],
+							"variable": [
+								{
+									"key": "pacienteId",
+									"value": "{{pacienteId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Busca uma consulta médica pelo ID (set consultaId)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Recupera a resposta JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Verifica se o campo 'id' existe na resposta",
+									"if (jsonData.id) {",
+									"    // Define a variável de coleção 'consultaId' com o valor do campo 'id' da resposta",
+									"    pm.collectionVariables.set(\"consultaId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "bb1d0ac6-acc4-46d0-8cd2-c097a5433733",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancela uma consulta médica",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/consulta-medica/:id/cancelar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consulta-medica",
+								":id",
+								"cancelar"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{consultaId}}",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081"
+		},
+		{
+			"key": "medicoId",
+			"value": ""
+		},
+		{
+			"key": "pacienteId",
+			"value": ""
+		},
+		{
+			"key": "horarioId",
+			"value": ""
+		},
+		{
+			"key": "consultaId",
+			"value": ""
+		}
+	]
+}
