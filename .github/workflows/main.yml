@@ -11,8 +11,8 @@ on:
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
   ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-  ECS_SERVICE: ${{ vars.ECS_CLUSTER }}
-  ECS_CLUSTER: ${{ vars.ECS_SERVICE }}
+  ECS_SERVICE: ${{ vars.ECS_SERVICE }}
+  ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
   SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
   POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -20,8 +20,8 @@ env:
   SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
   SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
   SPRING_DATASOURCE_TELEMED: ${{ secrets.SPRING_DATASOURCE_TELEMED }}
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_CLIENT_ID: ${{ secrets.AWS_CLIENT_ID }}
   AWS_CLIENT_SECRET: ${{ secrets.AWS_CLIENT_SECRET }}
   AWS_USER_POOL_ID: ${{ secrets.AWS_USER_POOL_ID }}
@@ -70,13 +70,13 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Verify AWS credentials
         run: aws sts get-caller-identity
-        
+
       - name: Log in to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
