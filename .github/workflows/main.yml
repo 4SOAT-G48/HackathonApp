@@ -74,6 +74,9 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Verify AWS credentials
+        run: aws sts get-caller-identity
+        
       - name: Log in to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
